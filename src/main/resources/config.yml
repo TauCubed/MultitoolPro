@@ -1,0 +1,23 @@
+#This is the multitool config
+
+#%prefix% = [MXC] before the message
+msgdrop: "%prefix%&cYou dropped your Multitool!"
+msgremove: "%prefix%&cYou removed your Multitool!"
+msgtoggleon: "%prefix%&aMultitool On!"
+msgtoggleoff: "%prefix%&cMultitool Off!"
+msgdeath: "%prefix%&cYou died, so your Multitool was put away!"
+msginvalid: "%prefix%&cInvalid Arguments:"
+msgnotmultitool: "%prefix%&cThis is not your multitool!"
+msgempty: "%prefix%&cThe Multitool is empty!"
+msgnospace: "%prefix%&cThere's no space in your inventory!"
+msggiven: "%prefix%&aYou have been given your multitool!"
+msgtoolremoved: "%prefix%&cA tool was removed from your Multitool!"
+msgalreadyhave: "%prefix%&cYou already have your multitool!"
+msgnopermission: "%prefix%&cYou do not have permission to do that!"
+msgnotonline: "%prefix%&cThat player is not online!"
+msgitemframe: "%prefix%&cYou cannot give your multitool to item frames!"
+msgarmourstand: "%prefix%&cYou cannot give your multitool to armour stands!"
+msglowdurability: "%prefix%&cLow durability on your multitool!"
+msgwarningtoggleon: "%prefix%&aDurability warnings toggled on!"
+msgwarningtoggleoff: "%prefix%&cDurability warnings toggled off!"
+msgwarningpercent: "%prefix%&aDurability percent set!"

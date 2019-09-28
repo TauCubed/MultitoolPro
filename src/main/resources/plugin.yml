@@ -1,0 +1,51 @@
+name: MultitoolPlusPro
+version: 2.2.1
+author: Darkolythe
+main: me.darkolythe.multitool.Multitool
+api-version: 1.13
+description: This plugin allows the use of multiple tools in one item, and switches them automatically based on what's being hit
+
+commands:
+    multitool:
+        usage: /<command> [open / toggle / reload / migrate / wings / togglewarning / warningpercent]
+        aliases: [mt]
+        description: the main Multitool command
+        permission: multitool.command
+        permission-message: You do not have permission!
+        
+permissions:
+    multitool.use:
+        description: Allows the use of a multitool
+        default: op
+    multitool.command:
+        description: Allows the use of multitool commands
+        default: op
+    multitool.nodrop:
+        description: Allows the user to keep their multitool inventory on death
+        default: op
+    multitool.viewothers:
+        description: Allows the opening of other players' multitools
+        default: op
+    multitool.migrate:
+        description: Migrates all data from multitool regular to multitool pro
+        default: op
+    multitool.reload:
+        description: Reloads config.yml
+        default: op
+    multitool.multiarmour:
+        description: Allows the use of the elytra/chestplate multi armour
+        default: op
+    multitool.durabilitywarning:
+        description: Allows the user to see tool durability warnings
+        default: op
+    multitool.*:
+        description: Wildcard permission
+        default: op
+        children:
+            multitool.use: true
+            multitool.command: true
+            multitool.viewothers: true
+            multitool.migrate: true
+            multitool.nodrop: true
+            multitool.reload: true
+            multitool.wings: true
