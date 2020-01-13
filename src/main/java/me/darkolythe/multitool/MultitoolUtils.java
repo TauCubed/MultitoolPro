@@ -46,7 +46,7 @@ public class MultitoolUtils implements Listener {
         main.messages.put("msglowdurability", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
         main.messages.put("msgwarningtoggleon", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
         main.messages.put("msgwarningtoggleoff", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
-        main.messages.put("msgwarningpercent", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
+        main.messages.put("msgwarningpercent", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgwarningpercent").replace("%prefix%", main.prefix)));
     }
 
 

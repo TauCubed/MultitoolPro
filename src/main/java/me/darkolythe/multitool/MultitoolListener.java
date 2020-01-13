@@ -208,8 +208,8 @@ public class MultitoolListener implements Listener {
 			for (ItemStack tool : items.get(player.getUniqueId())) {
 				if (tool != null && tool.hasItemMeta()) {
 					if (tool.getItemMeta() instanceof Damageable) {
-						Damageable dmg = (Damageable) tool.getItemMeta();
-						if ((100 - (((float)dmg.getDamage() / tool.getType().getMaxDurability()) * 100)) <= main.multitoolutils.getWarningPercent(player)) {
+						float toolPercent = (((float)(tool.getType().getMaxDurability() - ((Damageable) tool.getItemMeta()).getDamage())) / ((float)(tool.getType().getMaxDurability())) * 100);
+						if (toolPercent <= main.multitoolutils.getWarningPercent(player)) {
 							player.sendTitle("", main.messages.get("msglowdurability"), 0, 20, 5);
 							return true;
 						}
