@@ -1,5 +1,5 @@
 name: MultitoolPlusPro
-version: 2.2.3
+version: 2.2.4
 author: Darkolythe
 main: me.darkolythe.multitool.Multitool
 api-version: 1.13
@@ -19,9 +19,6 @@ permissions:
         default: op
     multitool.command:
         description: Allows the use of multitool commands
-        default: op
-    multitool.nodrop:
-        description: Allows the user to keep their multitool inventory on death
         default: op
     multitool.viewothers:
         description: Allows the opening of other players' multitools

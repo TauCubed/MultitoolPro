@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameRule;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -139,36 +140,35 @@ public class MultitoolListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		if (!event.getEntity().hasPermission("multitool.nodrop")) {
-			if (main.toolinv.containsKey(event.getEntity().getUniqueId())) {
+		Player player = event.getEntity();
+		if (!player.getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY)) {
+			if (main.toolinv.containsKey(player.getUniqueId())) {
 				if (!event.getKeepInventory()) {
-					for (ItemStack i : main.toolinv.get(event.getEntity().getUniqueId()).getContents()) {
+					for (ItemStack i : main.toolinv.get(player.getUniqueId()).getContents()) {
 						if (i != null && i.getType() != Material.FEATHER && i.getType() != Material.GRAY_STAINED_GLASS_PANE) {
-							event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), i);
+							player.getWorld().dropItemNaturally(player.getLocation(), i);
 						}
 					}
-					main.toolinv.remove(event.getEntity().getUniqueId());
-					main.multitoolutils.getToolInv(event.getEntity());
+					main.toolinv.remove(player.getUniqueId());
+					main.multitoolutils.getToolInv(player);
 				}
 			}
-			if (main.winginv.containsKey(event.getEntity().getUniqueId())) {
+			if (main.winginv.containsKey(player.getUniqueId())) {
 				if (!event.getKeepInventory()) {
-					for (ItemStack i : main.winginv.get(event.getEntity().getUniqueId()).getContents()) {
+					for (ItemStack i : main.winginv.get(player.getUniqueId()).getContents()) {
 						if (i != null && i.getType() != Material.FEATHER && i.getType() != Material.GRAY_STAINED_GLASS_PANE) {
-							event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), i);
+							player.getWorld().dropItemNaturally(player.getLocation(), i);
 						}
 					}
-					main.winginv.remove(event.getEntity().getUniqueId());
-					main.multitoolutils.getToolInv(event.getEntity());
+					main.winginv.remove(player.getUniqueId());
+					main.multitoolutils.getToolInv(player);
 				}
 			}
-		}
-		List<ItemStack> drops = event.getDrops();
-		for (ItemStack i : drops) {
-			if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
-				i.setType(Material.AIR);
-				if (!event.getEntity().hasPermission("multitool.nodrop")) {
-					event.getEntity().sendMessage(main.messages.get("msgdeath"));
+			List<ItemStack> drops = event.getDrops();
+			for (ItemStack i : drops) {
+				if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
+					i.setType(Material.AIR);
+					player.sendMessage(main.messages.get("msgdeath"));
 				}
 			}
 		}
