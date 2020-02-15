@@ -127,14 +127,16 @@ public class MultitoolListener implements Listener {
 	@EventHandler
 	public void onItemSwap(PlayerSwapHandItemsEvent event) {
 		if (event.getPlayer().isSneaking()) {
-			Player player = event.getPlayer();
-			main.multitoolutils.setToggle(player.getUniqueId(), !main.multitoolutils.getToggle(player.getUniqueId()));
-			if (main.multitoolutils.getToggle(player.getUniqueId())) {
-				player.sendMessage(main.messages.get("msgtoggleon"));
-			} else {
-				player.sendMessage(main.messages.get("msgtoggleoff"));
+			if (main.multitoolutils.isTool(event.getOffHandItem(), main.toollore)) {
+				Player player = event.getPlayer();
+				main.multitoolutils.setToggle(player.getUniqueId(), !main.multitoolutils.getToggle(player.getUniqueId()));
+				if (main.multitoolutils.getToggle(player.getUniqueId())) {
+					player.sendMessage(main.messages.get("msgtoggleon"));
+				} else {
+					player.sendMessage(main.messages.get("msgtoggleoff"));
+				}
+				event.setCancelled(true);
 			}
-			event.setCancelled(true);
 		}
 	}
 
