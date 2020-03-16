@@ -1,4 +1,6 @@
 #This is the multitool config
+#drop all tools on death?
+dropondeath: false
 
 #%prefix% = [MXC] before the message
 msgdrop: "%prefix%&cYou dropped your Multitool!"

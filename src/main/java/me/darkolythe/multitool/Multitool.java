@@ -28,6 +28,7 @@ public class Multitool extends JavaPlugin implements Listener {
 	public Map<UUID, Boolean> dowarning = new HashMap<>();
 	public Map<UUID, Integer> warningpercent = new HashMap<>();
 
+	public static boolean dropondeath = false;
 	public static Multitool plugin;
 	public MultitoolInventory multitoolinventory;
 	public WingInventory winginventory;
@@ -66,6 +67,7 @@ public class Multitool extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(multitooltooldetect, this);
 		getServer().getPluginManager().registerEvents(multitoolutils, this);
 
+		dropondeath = getConfig().getBoolean("dropondeath");
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			configmanager.playerLoad(player.getUniqueId(), "toolinv."); //load all the players on the server (on boot, there will be none, on reload, this is necessary)
 			configmanager.playerLoad(player.getUniqueId(), "winginv."); //load all the players on the server (on boot, there will be none, on reload, this is necessary)

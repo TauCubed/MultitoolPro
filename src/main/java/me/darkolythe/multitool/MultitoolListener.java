@@ -143,7 +143,7 @@ public class MultitoolListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
-		if (!player.getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY)) {
+		if (!Multitool.dropondeath) {
 			if (main.toolinv.containsKey(player.getUniqueId())) {
 				if (!event.getKeepInventory()) {
 					for (ItemStack i : main.toolinv.get(player.getUniqueId()).getContents()) {
