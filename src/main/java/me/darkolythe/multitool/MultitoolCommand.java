@@ -65,9 +65,9 @@ public class MultitoolCommand implements CommandExecutor {
 							}
 						} else {
 							if (!player.hasPermission("multitool.migrate")) {
-								sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, toggle, warningpercent]");
+								sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, warningpercent]");
 							} else {
-								sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, toggle, migrate, reload, warningpercent]");
+								sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, migrate, reload, warningpercent]");
 							}
 						}
 					} else if (args.length == 2 && (args[0].equalsIgnoreCase("Open") || args[0].equalsIgnoreCase("O"))) {
@@ -103,9 +103,9 @@ public class MultitoolCommand implements CommandExecutor {
 						}
 					} else {
 						if (!player.hasPermission("multitool.migrate")) {
-							sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, toggle, warningpercent]");
+							sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, warningpercent]");
 						} else {
-							sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, toggle, migrate, reload, warningpercent]");
+							sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, migrate, reload, warningpercent]");
 						}
 					}
 				}

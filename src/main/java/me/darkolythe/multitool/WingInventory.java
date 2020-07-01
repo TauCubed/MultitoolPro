@@ -11,6 +11,9 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WingInventory implements Listener {
 
     private Multitool main;
@@ -40,6 +43,15 @@ public class WingInventory implements Listener {
         Player player = (Player) event.getWhoClicked();
         InventoryView view = player.getOpenInventory();
         Inventory inv = player.getOpenInventory().getTopInventory();
+
+        Map<String, Integer> toolMap = new HashMap<>();
+        toolMap.put("DIAMOND_CHESTPLATE", 0);
+        toolMap.put("IRON_CHESTPLATE", 1);
+        toolMap.put("CHAINMAIL_CHESTPLATE", 2);
+        toolMap.put("LEATHER_CHESTPLATE", 3);
+        toolMap.put("GOLDEN_CHESTPLATE", 4);
+        toolMap.put("NETHERITE_CHESTPLATE", 5);
+
         if (event.getClickedInventory() != null) { //if the user clicks an inventory
             if (event.getClickedInventory() != player.getInventory() && event.getClickedInventory().getType() == InventoryType.HOPPER) {
                 if (view.getTitle().equals(ChatColor.GREEN + "Multiarmour")) {
@@ -53,17 +65,13 @@ public class WingInventory implements Listener {
                             if (clickstack.getType() == Material.GRAY_STAINED_GLASS_PANE) { //if the clicked item is a glass pane
                                 if (clickstack.getItemMeta().hasItemFlag(ItemFlag.HIDE_PLACED_ON)) { //if its unbreakable (making sure its the right one)
                                     if (clickstack.getItemMeta().getDisplayName().contains("Chestplate")) {
-                                        switch (cursorstack) {
-                                            case DIAMOND_CHESTPLATE:
-                                            case IRON_CHESTPLATE:
-                                            case CHAINMAIL_CHESTPLATE:
-                                            case LEATHER_CHESTPLATE:
-                                            case GOLDEN_CHESTPLATE:
+                                        String type = cursorstack.toString();
+                                        for (String s : toolMap.keySet()) {
+                                            if (type.contains(s)) {
                                                 inv.setItem(1, player.getItemOnCursor());
                                                 player.setItemOnCursor(null);
                                                 break;
-                                            default:
-                                                break;
+                                            }
                                         }
                                     } else if (clickstack.getItemMeta().getDisplayName().contains("Elytra")) {
                                         if (cursorstack == Material.ELYTRA) {
@@ -78,91 +86,88 @@ public class WingInventory implements Listener {
                         if (event.getCurrentItem() != null) {
                             ItemStack clickstack = event.getCurrentItem().clone();
                             boolean removemt = false;
-                            switch (clickstack.getType()) {
-                                case DIAMOND_CHESTPLATE:
-                                case IRON_CHESTPLATE:
-                                case CHAINMAIL_CHESTPLATE:
-                                case LEATHER_CHESTPLATE:
-                                case GOLDEN_CHESTPLATE:
-                                    inv.setItem(1, main.wingholders.get(1));
-                                    player.setItemOnCursor(clickstack);
-                                    removemt = true;
-                                    break;
-                                case ELYTRA:
-                                    inv.setItem(2, main.wingholders.get(2));
-                                    player.setItemOnCursor(clickstack);
-                                    removemt = true;
-                                    break;
-                                case FEATHER:
-                                    boolean forloop = false;
-                                    ItemStack genstack = null;
-                                    if (!main.openinv.containsKey(player)) {
-                                        for (int i = 0; i < 5; i++) { //this loops through the mt inv, and gives the player the first multitool that shows up
-                                            if (main.winginv.get(player.getUniqueId()).getItem(i) != null) {
-                                                Material curmat = main.winginv.get(player.getUniqueId()).getItem(i).getType();
-                                                forloop = false;
-                                                if (curmat != Material.GRAY_STAINED_GLASS_PANE && curmat != Material.FEATHER) {
-                                                    genstack = main.winginv.get(player.getUniqueId()).getItem(i).clone();
-                                                    ItemMeta genmeta = genstack.getItemMeta();
-                                                    genmeta.setLore(main.multitoolutils.addLore(genmeta, main.winglore, false));
-                                                    genstack.setItemMeta(genmeta);
-                                                    forloop = true; //this means a tool has been found, and will be given to the player if they have space
-                                                    break;
-                                                }
+                            if (clickstack.getType().toString().contains("CHESTPLATE")) {
+                                String type = clickstack.getType().toString();
+                                for (String s : toolMap.keySet()) {
+                                    if (type.contains(s)) {
+                                        inv.setItem(1, main.wingholders.get(1));
+                                        player.setItemOnCursor(clickstack);
+                                        removemt = true;
+                                        break;
+                                    }
+                                }
+                            } else if (clickstack.getType() == Material.ELYTRA) {
+                                inv.setItem(2, main.wingholders.get(2));
+                                player.setItemOnCursor(clickstack);
+                                removemt = true;
+                            } else if (clickstack.getType() == Material.FEATHER) {
+                                boolean forloop = false;
+                                ItemStack genstack = null;
+                                if (!main.openinv.containsKey(player)) {
+                                    for (int i = 0; i < 5; i++) { //this loops through the mt inv, and gives the player the first multitool that shows up
+                                        if (main.winginv.get(player.getUniqueId()).getItem(i) != null) {
+                                            Material curmat = main.winginv.get(player.getUniqueId()).getItem(i).getType();
+                                            forloop = false;
+                                            if (curmat != Material.GRAY_STAINED_GLASS_PANE && curmat != Material.FEATHER) {
+                                                genstack = main.winginv.get(player.getUniqueId()).getItem(i).clone();
+                                                ItemMeta genmeta = genstack.getItemMeta();
+                                                genmeta.setLore(main.multitoolutils.addLore(genmeta, main.winglore, false));
+                                                genstack.setItemMeta(genmeta);
+                                                forloop = true; //this means a tool has been found, and will be given to the player if they have space
+                                                break;
                                             }
                                         }
-                                    } else {
-                                        player.sendMessage(main.messages.get("msgnotmultitool"));
-                                        event.setCancelled(true);
-                                        return;
                                     }
-                                    if (!forloop) {
-                                        player.sendMessage(main.messages.get("msgempty"));
-                                    } else {
-                                        Inventory plrinv = player.getInventory();
-                                        boolean hasitem = false;
-                                        for (ItemStack i : plrinv) {
-                                            if (i != null && i.getType() != Material.AIR) {
-                                                if (i.getItemMeta() != null) {
-                                                    ItemMeta imeta = i.getItemMeta();
-                                                    if (imeta.hasLore()) {
-                                                        for (String l : imeta.getLore()) {
-                                                            if (l.equals(main.winglore)) {
-                                                                hasitem = true;
-                                                                break;
-                                                            }
+                                } else {
+                                    player.sendMessage(main.messages.get("msgnotmultitool"));
+                                    event.setCancelled(true);
+                                    return;
+                                }
+                                if (!forloop) {
+                                    player.sendMessage(main.messages.get("msgempty"));
+                                } else {
+                                    Inventory plrinv = player.getInventory();
+                                    boolean hasitem = false;
+                                    for (ItemStack i : plrinv) {
+                                        if (i != null && i.getType() != Material.AIR) {
+                                            if (i.getItemMeta() != null) {
+                                                ItemMeta imeta = i.getItemMeta();
+                                                if (imeta.hasLore()) {
+                                                    for (String l : imeta.getLore()) {
+                                                        if (l.equals(main.winglore)) {
+                                                            hasitem = true;
+                                                            break;
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-
-                                        boolean giveitem;
-                                        if (plrinv.firstEmpty() == -1) {
-                                            giveitem = false;
-                                        } else {
-                                            giveitem = true;
-                                        }
-
-                                        if (giveitem && !hasitem) {
-                                            plrinv.addItem(genstack);
-                                            player.sendMessage(main.messages.get("msggiven"));
-                                        } else if (!giveitem) {
-                                            player.sendMessage(main.messages.get("msgnospace"));
-                                        } else {
-                                            player.sendMessage(main.messages.get("msgalreadyhave"));
-                                        }
                                     }
-                                    event.setCancelled(true);
-                                    player.closeInventory();
-                                    break;
-                                default:
-                                    if (clickstack.getType() != Material.GRAY_STAINED_GLASS_PANE && clickstack.getType() != Material.AIR) {
-                                        inv.setItem(event.getRawSlot(), main.wingholders.get(event.getRawSlot()));
-                                        player.setItemOnCursor(clickstack);
-                                        removemt = true;
+
+                                    boolean giveitem;
+                                    if (plrinv.firstEmpty() == -1) {
+                                        giveitem = false;
+                                    } else {
+                                        giveitem = true;
                                     }
-                                    break;
+
+                                    if (giveitem && !hasitem) {
+                                        plrinv.addItem(genstack);
+                                        player.sendMessage(main.messages.get("msggiven"));
+                                    } else if (!giveitem) {
+                                        player.sendMessage(main.messages.get("msgnospace"));
+                                    } else {
+                                        player.sendMessage(main.messages.get("msgalreadyhave"));
+                                    }
+                                }
+                                event.setCancelled(true);
+                                player.closeInventory();
+                            } else {
+                                if (clickstack.getType() != Material.GRAY_STAINED_GLASS_PANE && clickstack.getType() != Material.AIR) {
+                                    inv.setItem(event.getRawSlot(), main.wingholders.get(event.getRawSlot()));
+                                    player.setItemOnCursor(clickstack);
+                                    removemt = true;
+                                }
                             }
                             if (removemt) {
                                 if (main.openinv.containsKey(player)) {
