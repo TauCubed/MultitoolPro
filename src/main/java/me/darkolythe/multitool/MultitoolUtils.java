@@ -3,6 +3,8 @@ package me.darkolythe.multitool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -161,45 +163,47 @@ public class MultitoolUtils implements Listener {
     public boolean migrate() {
         Map<UUID, Inventory> temptools = new HashMap<>();
 
-        if (main.getConfig().contains("toolinv")) {
-            for (String uuid : main.getConfig().getConfigurationSection("toolinv").getKeys(false)) {
-                Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, ChatColor.GREEN + "Multitools"); //create the mv inv
+        File file = new File(main.getDataFolder(), "../MultitoolPlus/config.yml");
 
-                if (main.getConfig().contains("toolinv." + uuid)) {
-                    int index = 0;
-                    for (String item : main.getConfig().getConfigurationSection("toolinv." + uuid).getKeys(false)) { //load all the itemstacks from config.yml
-                        if (main.getConfig().getConfigurationSection("toolinv." + uuid + "." + item) != null) {
-                            inv.setItem(index, main.configmanager.loadItem(main.getConfig().getConfigurationSection("toolinv." + uuid + "." + item)));
+        if (file.exists()) {
+            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+            if (config.contains("toolinv")) {
+                for (String uuid : config.getConfigurationSection("toolinv").getKeys(false)) {
+                    Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, ChatColor.GREEN + "Multitools"); //create the mv inv
+
+                    if (config.contains("toolinv." + uuid)) {
+                        int index = 0;
+                        for (String item : config.getConfigurationSection("toolinv." + uuid).getKeys(false)) { //load all the itemstacks from config.yml
+                            if (config.getConfigurationSection("toolinv." + uuid + "." + item) != null) {
+                                inv.setItem(index, main.configmanager.loadItem(config.getConfigurationSection("toolinv." + uuid + "." + item)));
+                            }
+                            if (inv.getItem(index) == null) { //if air is in the inventory, put the glass panes as main.placeholders
+                                inv.setItem(index, main.placeholders.get(index));
+                            }
+                            index += 1;
                         }
-                        if (inv.getItem(index) == null) { //if air is in the inventory, put the glass panes as main.placeholders
-                            inv.setItem(index, main.placeholders.get(index));
+                    } else {
+                        for (int index = 0; index < 5; index++) {
+                            inv.setItem(index, main.placeholders.get(index)); //if the player data is empty, set main.placeholders until the inv is saved
                         }
-                        index += 1;
                     }
-                } else {
-                    for (int index = 0; index < 5; index++) {
-                        inv.setItem(index, main.placeholders.get(index)); //if the player data is empty, set main.placeholders until the inv is saved
-                    }
+                    temptools.put(UUID.fromString(uuid), inv);
                 }
-                temptools.put(UUID.fromString(uuid), inv);
-            }
 
-            for (UUID uuid : temptools.keySet()) {
-                main.configmanager.playerSave(uuid, temptools.get(uuid), "toolinv.");
+                for (UUID uuid : temptools.keySet()) {
+                    main.configmanager.playerSave(uuid, temptools.get(uuid), "toolinv.");
+                }
+            } else {
+                main.saveDefaultConfig();
+                main.reloadConfig();
+                return false;
             }
-        } else {
-            File configFile = new File(main.getDataFolder(), "config.yml");
-            configFile.delete();
             main.saveDefaultConfig();
             main.reloadConfig();
-            return false;
+            return true;
         }
-
-        File configFile = new File(main.getDataFolder(), "config.yml");
-        configFile.delete();
-        main.saveDefaultConfig();
-        main.reloadConfig();
-        return true;
+        return false;
     }
 
     public Boolean stringCanInteger(String str) {
