@@ -28,6 +28,8 @@ public class Multitool extends JavaPlugin implements Listener {
 	public Map<UUID, Boolean> dowarning = new HashMap<>();
 	public Map<UUID, Integer> warningpercent = new HashMap<>();
 
+	public static List<String> soulbound = new ArrayList<>();
+	public static List<String> vanish = new ArrayList<>();
 	public static boolean dropondeath = false;
 	public static Multitool plugin;
 	public MultitoolInventory multitoolinventory;

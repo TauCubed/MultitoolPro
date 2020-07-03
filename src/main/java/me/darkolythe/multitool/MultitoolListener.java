@@ -1,5 +1,6 @@
 package me.darkolythe.multitool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -7,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.GameRule;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -143,36 +145,61 @@ public class MultitoolListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
-		if (!Multitool.dropondeath) {
+		if (Multitool.dropondeath) {
 			if (main.toolinv.containsKey(player.getUniqueId())) {
 				if (!event.getKeepInventory()) {
-					for (ItemStack i : main.toolinv.get(player.getUniqueId()).getContents()) {
-						if (i != null && i.getType() != Material.FEATHER && i.getType() != Material.GRAY_STAINED_GLASS_PANE) {
-							player.getWorld().dropItemNaturally(player.getLocation(), i);
-						}
-					}
-					main.toolinv.remove(player.getUniqueId());
-					main.multitoolutils.getToolInv(player);
+					dropItems(player, main.toolinv.get(player.getUniqueId()));
 				}
 			}
 			if (main.winginv.containsKey(player.getUniqueId())) {
 				if (!event.getKeepInventory()) {
-					for (ItemStack i : main.winginv.get(player.getUniqueId()).getContents()) {
-						if (i != null && i.getType() != Material.FEATHER && i.getType() != Material.GRAY_STAINED_GLASS_PANE) {
-							player.getWorld().dropItemNaturally(player.getLocation(), i);
+					dropItems(player, main.winginv.get(player.getUniqueId()));
+				}
+			}
+		}
+		List<ItemStack> drops = event.getDrops();
+		for (ItemStack i : drops) {
+			if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
+				i.setType(Material.AIR);
+				player.sendMessage(main.messages.get("msgdeath"));
+			}
+		}
+	}
+
+	private void dropItems(Player player, Inventory inv) {
+		int index = 0;
+		for (ItemStack i : inv.getContents()) {
+			boolean vanish = false;
+			boolean soulbound = false;
+			if (i != null && i.getType() != Material.FEATHER && i.getType() != Material.GRAY_STAINED_GLASS_PANE) {
+				if (i.containsEnchantment(Enchantment.VANISHING_CURSE))
+					vanish = true;
+				if (i.getItemMeta() != null && i.getItemMeta().getLore() != null) {
+					for (String l : i.getItemMeta().getLore()) {
+						for (String s : Multitool.vanish) {
+							if (l.toLowerCase().contains(s.toLowerCase())) {
+								vanish = true;
+								break;
+							}
 						}
+						for (String s : Multitool.soulbound) {
+							if (l.toLowerCase().contains(s.toLowerCase())) {
+								soulbound = true;
+								break;
+							}
+						}
+						if (soulbound || vanish)
+							break;
 					}
-					main.winginv.remove(player.getUniqueId());
-					main.multitoolutils.getToolInv(player);
+				}
+				if (!vanish && !soulbound) {
+					player.getWorld().dropItemNaturally(player.getLocation(), i);
+				}
+				if (!soulbound) {
+					inv.setItem(index, main.placeholders.get(index));
 				}
 			}
-			List<ItemStack> drops = event.getDrops();
-			for (ItemStack i : drops) {
-				if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
-					i.setType(Material.AIR);
-					player.sendMessage(main.messages.get("msgdeath"));
-				}
-			}
+			index++;
 		}
 	}
 

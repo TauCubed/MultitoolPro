@@ -30,12 +30,13 @@ public class MultitoolInventory implements Listener {
 	@EventHandler
 	public void onInventoryDrag(InventoryDragEvent event) {
 		if (event.getWhoClicked() instanceof Player) {
-			if (event.getInventory().getType() == InventoryType.DISPENSER)
-			if ((event.getView().getTitle().equals(ChatColor.GREEN + "Multitools"))) {
-				for (int i: event.getRawSlots()) {
-					if (i <= 8) {
-						event.setCancelled(true);
-						break;
+			if (event.getInventory().getType() == InventoryType.DISPENSER) {
+				if ((event.getView().getTitle().equals(ChatColor.BLUE + "Multitools"))) {
+					for (int i : event.getRawSlots()) {
+						if (i <= 8) {
+							event.setCancelled(true);
+							break;
+						}
 					}
 				}
 			}
@@ -58,7 +59,7 @@ public class MultitoolInventory implements Listener {
 
 		if (event.getClickedInventory() != null) { //if the user clicks an inventory
 			if (player.getOpenInventory().getTopInventory().getType() == InventoryType.DISPENSER) {
-				if (view.getTitle().equals(ChatColor.GREEN + "Multitools")) {
+				if (view.getTitle().equals(ChatColor.BLUE + "Multitools")) {
 					if (event.getClickedInventory().equals(player.getInventory()) && event.isShiftClick()) {
 						String type = event.getCurrentItem().clone().getType().toString();
 						for (String s : toolMap.keySet()) {
@@ -79,7 +80,7 @@ public class MultitoolInventory implements Listener {
 								if (clickstack.getType() == Material.GRAY_STAINED_GLASS_PANE) { //if the clicked item is a glass pane
 									String type = cursorstack.toString();
 									for (String s : toolMap.keySet()) {
-										if (type.contains(s)) {
+										if (type.contains(s) && player.hasPermission("multitool.tool." + s.toLowerCase())) {
 											inv.setItem(toolMap.get(s), player.getItemOnCursor());
 											player.setItemOnCursor(null);
 											break;

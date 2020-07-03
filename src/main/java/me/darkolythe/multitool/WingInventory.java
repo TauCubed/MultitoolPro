@@ -26,7 +26,7 @@ public class WingInventory implements Listener {
     public void onInventoryDrag(InventoryDragEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             if (event.getInventory().getType() == InventoryType.HOPPER) {
-                if ((event.getView().getTitle().equals(ChatColor.GREEN + "Multiarmour"))) {
+                if ((event.getView().getTitle().equals(ChatColor.BLUE + "Multiarmour"))) {
                     for (int i : event.getRawSlots()) {
                         if (i <= 4) {
                             event.setCancelled(true);
@@ -54,7 +54,7 @@ public class WingInventory implements Listener {
 
         if (event.getClickedInventory() != null) { //if the user clicks an inventory
             if (event.getClickedInventory() != player.getInventory() && event.getClickedInventory().getType() == InventoryType.HOPPER) {
-                if (view.getTitle().equals(ChatColor.GREEN + "Multiarmour")) {
+                if (view.getTitle().equals(ChatColor.BLUE + "Multiarmour")) {
                     if (event.isShiftClick()) {
                         event.setCancelled(true);
                     }
@@ -67,14 +67,14 @@ public class WingInventory implements Listener {
                                     if (clickstack.getItemMeta().getDisplayName().contains("Chestplate")) {
                                         String type = cursorstack.toString();
                                         for (String s : toolMap.keySet()) {
-                                            if (type.contains(s)) {
+                                            if (type.contains(s) && player.hasPermission("multitool.armour.chestplate")) {
                                                 inv.setItem(1, player.getItemOnCursor());
                                                 player.setItemOnCursor(null);
                                                 break;
                                             }
                                         }
                                     } else if (clickstack.getItemMeta().getDisplayName().contains("Elytra")) {
-                                        if (cursorstack == Material.ELYTRA) {
+                                        if (cursorstack == Material.ELYTRA && player.hasPermission("multitool.armour.wings")) {
                                             inv.setItem(2, player.getItemOnCursor());
                                             player.setItemOnCursor(null);
                                         }
@@ -203,7 +203,7 @@ public class WingInventory implements Listener {
                     event.setCancelled(true);
                 }
             } else {
-                if (view.getTitle().equals(ChatColor.GREEN + "Multiarmour")) {
+                if (view.getTitle().equals(ChatColor.BLUE + "Multiarmour")) {
                     if (event.isShiftClick()) {
                         event.setCancelled(true);
                     }

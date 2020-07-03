@@ -1,5 +1,5 @@
 name: MultitoolPlusPro
-version: 3.0.1
+version: 3.2.0
 author: Darkolythe
 main: me.darkolythe.multitool.Multitool
 api-version: 1.13
@@ -33,8 +33,32 @@ permissions:
         description: Allows the use of the elytra/chestplate multi armour
         default: op
     multitool.durabilitywarning:
-        description: Allows the user to see tool durability warnings
+        description: Allows the user to toggle durability warnings (The default toggle state is off)
         default: op
+    multitool.tool.sword:
+        description: Allows the user to put a sword in the multitool
+        default: true
+    multitool.tool.pickaxe:
+        description: Allows the user to put a pickaxe in the multitool
+        default: true
+    multitool.tool.axe:
+        description: Allows the user to put a axe in the multitool
+        default: true
+    multitool.tool.shovel:
+        description: Allows the user to put a shovel in the multitool
+        default: true
+    multitool.tool.hoe:
+        description: Allows the user to put a hoe in the multitool
+        default: true
+    multitool.tool.shears:
+        description: Allows the user to put shears in the multitool
+        default: true
+    multitool.armour.wings:
+        description: Allows the user to put a elytra in the multiarmour
+        default: true
+    multitool.armour.chestplate:
+        description: Allows the user to put a chestplate in the multiarmour
+        default: true
     multitool.*:
         description: Wildcard permission
         default: op
