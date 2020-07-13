@@ -80,7 +80,9 @@ public class MultitoolInventory implements Listener {
 								if (clickstack.getType() == Material.GRAY_STAINED_GLASS_PANE) { //if the clicked item is a glass pane
 									String type = cursorstack.toString();
 									for (String s : toolMap.keySet()) {
-										if (type.contains(s) && player.hasPermission("multitool.tool." + s.toLowerCase())) {
+										if (type.contains(s)
+												&& player.hasPermission("multitool.tool." + s.toLowerCase())
+												&& inv.getItem(toolMap.get(s)).getType().equals(Material.GRAY_STAINED_GLASS_PANE)) {
 											inv.setItem(toolMap.get(s), player.getItemOnCursor());
 											player.setItemOnCursor(null);
 											break;

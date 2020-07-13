@@ -67,7 +67,9 @@ public class WingInventory implements Listener {
                                     if (clickstack.getItemMeta().getDisplayName().contains("Chestplate")) {
                                         String type = cursorstack.toString();
                                         for (String s : toolMap.keySet()) {
-                                            if (type.contains(s) && player.hasPermission("multitool.armour.chestplate")) {
+                                            if (type.contains(s)
+                                                    && player.hasPermission("multitool.armour.chestplate")
+                                                    && inv.getItem(1).getType().equals(Material.GRAY_STAINED_GLASS_PANE)) {
                                                 inv.setItem(1, player.getItemOnCursor());
                                                 player.setItemOnCursor(null);
                                                 break;

@@ -145,23 +145,21 @@ public class MultitoolListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
-		if (Multitool.dropondeath) {
-			if (main.toolinv.containsKey(player.getUniqueId())) {
-				if (!event.getKeepInventory()) {
+		if (!event.getKeepInventory()) {
+			if (Multitool.dropondeath) {
+				if (main.toolinv.containsKey(player.getUniqueId())) {
 					dropItems(player, main.toolinv.get(player.getUniqueId()));
 				}
-			}
-			if (main.winginv.containsKey(player.getUniqueId())) {
-				if (!event.getKeepInventory()) {
+				if (main.winginv.containsKey(player.getUniqueId())) {
 					dropItems(player, main.winginv.get(player.getUniqueId()));
 				}
 			}
-		}
-		List<ItemStack> drops = event.getDrops();
-		for (ItemStack i : drops) {
-			if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
-				i.setType(Material.AIR);
-				player.sendMessage(main.messages.get("msgdeath"));
+			List<ItemStack> drops = event.getDrops();
+			for (ItemStack i : drops) {
+				if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
+					i.setType(Material.AIR);
+					player.sendMessage(main.messages.get("msgdeath"));
+				}
 			}
 		}
 	}

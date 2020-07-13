@@ -7,7 +7,7 @@ loseondeath: ["Vanishing", "Unstable"]
 keepondeath: ["Soulbound"]
 
 prefix: "&f&l[&9&lMultitool&f&l] "
-#%prefix% = [MXC] before the message
+#%prefix% = [prefix] before the message
 msgdrop: "%prefix%&cYou dropped your Multitool!"
 msgremove: "%prefix%&cYou removed your Multitool!"
 msgtoggleon: "%prefix%&aMultitool On!"
