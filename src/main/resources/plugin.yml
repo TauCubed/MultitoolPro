@@ -1,5 +1,5 @@
 name: MultitoolPlusPro
-version: 3.2.2
+version: 3.2.3
 author: Darkolythe
 main: me.darkolythe.multitool.Multitool
 api-version: 1.13
@@ -67,6 +67,6 @@ permissions:
             multitool.command: true
             multitool.viewothers: true
             multitool.migrate: true
-            multitool.nodrop: true
             multitool.reload: true
-            multitool.wings: true
+            multitool.multiarmour: true
+            multitool.durabilitywarning: true
