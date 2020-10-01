@@ -42,7 +42,7 @@ public class ConfigManager {
     public void playerLoad(UUID uuid, String invdir) {
 
         if (invdir.equals("toolinv.")) {
-            Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.DISPENSER, org.bukkit.ChatColor.BLUE + "Multitools"); //create the mv inv
+            Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.DISPENSER, main.mtoinv); //create the mv inv
             if (playerDataConfig.contains("toolinv." + uuid)) {
                 int index = 0;
                 for (String item : playerDataConfig.getConfigurationSection("toolinv." + uuid).getKeys(false)) { //load all the itemstacks from config.yml
@@ -63,7 +63,7 @@ public class ConfigManager {
             main.lastblock.put(uuid, null); //set the default value for last block hit upon player join
             main.toolinv.put(uuid, inv);
         } else {
-            Inventory winv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, org.bukkit.ChatColor.BLUE + "Multiarmour"); //create the mv inv
+            Inventory winv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, main.mtwinv); //create the mv inv
             if (playerDataConfig.contains("winginv." + uuid)) {
                 int index = 0;
                 for (String item : playerDataConfig.getConfigurationSection("winginv." + uuid).getKeys(false)) { //load all the itemstacks from config.yml

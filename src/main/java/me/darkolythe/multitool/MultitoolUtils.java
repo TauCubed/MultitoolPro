@@ -52,6 +52,8 @@ public class MultitoolUtils implements Listener {
         main.messages.put("msgwarningtoggleon", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
         main.messages.put("msgwarningtoggleoff", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
         main.messages.put("msgwarningpercent", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgwarningpercent").replace("%prefix%", main.prefix)));
+        main.mtoinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtoinv"));
+        main.mtwinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtwinv"));
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////Player leave and join
@@ -89,7 +91,7 @@ public class MultitoolUtils implements Listener {
 
     public Inventory getToolInv(Player player) {
         if (!main.toolinv.containsKey(player.getUniqueId())) {
-            Inventory inv = Bukkit.getServer().createInventory(player, InventoryType.DISPENSER, ChatColor.BLUE + "Multitools"); //create the mv inv
+            Inventory inv = Bukkit.getServer().createInventory(player, InventoryType.DISPENSER, main.mtoinv); //create the mv inv
             for (int index = 0; index < 9; index++) {
                 inv.setItem(index, main.placeholders.get(index)); //if the player data is empty, set main.placeholders until the inv is saved
             }
@@ -100,7 +102,7 @@ public class MultitoolUtils implements Listener {
 
     public Inventory getWingInv(Player player) {
         if (!main.winginv.containsKey(player.getUniqueId())) {
-            Inventory inv = Bukkit.getServer().createInventory(player, InventoryType.HOPPER, ChatColor.BLUE + "Multiarmour"); //create the mv inv
+            Inventory inv = Bukkit.getServer().createInventory(player, InventoryType.HOPPER, main.mtwinv); //create the mv inv
             for (int index = 0; index < 5; index++) {
                 inv.setItem(index, main.wingholders.get(index)); //if the player data is empty, set main.placeholders until the inv is saved
             }
@@ -172,7 +174,7 @@ public class MultitoolUtils implements Listener {
 
             if (config.contains("toolinv")) {
                 for (String uuid : config.getConfigurationSection("toolinv").getKeys(false)) {
-                    Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, ChatColor.BLUE + "Multitools"); //create the mv inv
+                    Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, main.mtoinv); //create the mv inv
 
                     if (config.contains("toolinv." + uuid)) {
                         int index = 0;

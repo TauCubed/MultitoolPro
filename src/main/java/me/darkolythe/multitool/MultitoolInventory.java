@@ -31,7 +31,7 @@ public class MultitoolInventory implements Listener {
 	public void onInventoryDrag(InventoryDragEvent event) {
 		if (event.getWhoClicked() instanceof Player) {
 			if (event.getInventory().getType() == InventoryType.DISPENSER) {
-				if ((event.getView().getTitle().equals(ChatColor.BLUE + "Multitools"))) {
+				if ((event.getView().getTitle().equals(main.mtoinv))) {
 					for (int i : event.getRawSlots()) {
 						if (i <= 8) {
 							event.setCancelled(true);
@@ -59,13 +59,11 @@ public class MultitoolInventory implements Listener {
 
 		if (event.getClickedInventory() != null) { //if the user clicks an inventory
 			if (player.getOpenInventory().getTopInventory().getType() == InventoryType.DISPENSER) {
-				if (view.getTitle().equals(ChatColor.BLUE + "Multitools")) {
+				if (view.getTitle().equals(main.mtoinv)) {
 					if (event.getClickedInventory().equals(player.getInventory()) && event.isShiftClick()) {
 						String type = event.getCurrentItem().clone().getType().toString();
 						for (String s : toolMap.keySet()) {
-							System.out.println(type);
-							System.out.println("_" + s);
-							if (type.contains("_" + s)) {
+							if (type.contains("_" + s) || s.equals(type)) {
 								if (inv.getItem(toolMap.get(s)).getType() == Material.GRAY_STAINED_GLASS_PANE) {
 									inv.setItem(toolMap.get(s), event.getCurrentItem().clone());
 									event.getCurrentItem().setAmount(0);
@@ -82,7 +80,7 @@ public class MultitoolInventory implements Listener {
 								if (clickstack.getType() == Material.GRAY_STAINED_GLASS_PANE) { //if the clicked item is a glass pane
 									String type = cursorstack.toString();
 									for (String s : toolMap.keySet()) {
-										if (type.contains("_" + s)
+										if (type.contains("_" + s) || s.equals(type)
 												&& player.hasPermission("multitool.tool." + s.toLowerCase())
 												&& inv.getItem(toolMap.get(s)).getType().equals(Material.GRAY_STAINED_GLASS_PANE)) {
 											inv.setItem(toolMap.get(s), player.getItemOnCursor());
@@ -99,7 +97,7 @@ public class MultitoolInventory implements Listener {
 								boolean removemt = false;
 								String type = clickstack.getType().toString();
 								for (String s : toolMap.keySet()) {
-									if (type.contains("_" + s)) {
+									if (type.contains("_" + s) || s.equals(type)) {
 										inv.setItem(toolMap.get(s), main.placeholders.get(toolMap.get(s)));
 										player.setItemOnCursor(clickstack);
 										removemt = true;

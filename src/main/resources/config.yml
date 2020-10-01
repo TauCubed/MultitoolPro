@@ -6,6 +6,9 @@ loseondeath: ["Vanishing", "Unstable"]
 #if dropondeath is true, if the item being dropped contains the words below in their lore, they will be kept in the multitool inventory
 keepondeath: ["Soulbound"]
 
+mtoinv: "&9Multitools"
+mtwinv: "&9Multiarmour"
+
 prefix: "&f&l[&9&lMultitool&f&l] "
 #%prefix% = [prefix] before the message
 msgdrop: "%prefix%&cYou dropped your Multitool!"

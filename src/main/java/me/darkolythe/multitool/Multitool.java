@@ -25,6 +25,8 @@ public class Multitool extends JavaPlugin implements Listener {
 	public String winglore = ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + "Multiarmour";
 	public Map<Player, Player> openinv = new HashMap<>();
 	public Map<String, String> messages = new HashMap<>();
+	public String mtoinv = ChatColor.BLUE + "Multitools";
+	public String mtwinv = ChatColor.BLUE + "Multiarmour";
 	public Map<UUID, Boolean> dowarning = new HashMap<>();
 	public Map<UUID, Integer> warningpercent = new HashMap<>();
 
@@ -40,7 +42,7 @@ public class Multitool extends JavaPlugin implements Listener {
 	public ConfigManager configmanager;
 	public MultitoolUtils multitoolutils;
 	
-	public void onEnable() {///////////////////////////////////////////////////////////////////////////////////////////////Enable Disable
+	public void onEnable() {
 		plugin = this;
 		getServer().getPluginManager().registerEvents(this, this);
 		
@@ -72,7 +74,7 @@ public class Multitool extends JavaPlugin implements Listener {
 		dropondeath = getConfig().getBoolean("dropondeath");
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			configmanager.playerLoad(player.getUniqueId(), "toolinv."); //load all the players on the server (on boot, there will be none, on reload, this is necessary)
-			configmanager.playerLoad(player.getUniqueId(), "winginv."); //load all the players on the server (on boot, there will be none, on reload, this is necessary)
+			configmanager.playerLoad(player.getUniqueId(), "winginv.");
 		}
 
 		Metrics metrics = new Metrics(plugin);
@@ -86,7 +88,7 @@ public class Multitool extends JavaPlugin implements Listener {
 
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			configmanager.playerSave(player.getUniqueId(), null, "toolinv."); //this saves all the player mt inv information if the server is reloading
-			configmanager.playerSave(player.getUniqueId(), null, "winginv."); //this saves all the player mt inv information if the server is reloading
+			configmanager.playerSave(player.getUniqueId(), null, "winginv.");
 		}
 		
 		System.out.println(prefix + ChatColor.RED + "Diverse Multitool disabled!");
