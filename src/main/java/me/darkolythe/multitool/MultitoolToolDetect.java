@@ -56,7 +56,7 @@ private Multitool main;
 		Player player = event.getPlayer();
 		String type = event.getRightClicked().getType().toString();
 		if ((type.contains("COW") || type.equals("SHEEP")) && !type.equals("COW") || type.equals("SNOW_GOLEM")) {
-			setItem(player, null, false, true);
+			setItem(player, null, true, true);
 		}
 	}
 
@@ -105,7 +105,7 @@ private Multitool main;
 							if (main.multitoolutils.getToolInv(player).getItem(5) != null) {
 								if (main.multitoolutils.getToolInv(player).getItem(5).getType() != Material.GRAY_STAINED_GLASS_PANE) {
 									givestack = main.multitoolutils.getToolInv(player).getItem(5).clone();
-									main.lastblock.put(player.getUniqueId(), Material.AIR); //change the last block hit, if the tool was able to be changed
+									main.lastblock.put(player.getUniqueId(), Material.BEDROCK); //change the last block hit, if the tool was able to be changed
 									giveStack(givestack, player);
 									return;
 								}
@@ -120,13 +120,16 @@ private Multitool main;
 
 									int tooltype = getToolType(blocktype);
 
-									if ((!isShifting) && main.multitoolutils.getToolInv(player).getItem(tooltype) != null) {
+									if (isShifting && tooltype == 3) {
+										tooltype = 4;
+									}
+
+									if (main.multitoolutils.getToolInv(player).getItem(tooltype) != null) {
 										if (main.multitoolutils.getToolInv(player).getItem(tooltype).getType() != Material.GRAY_STAINED_GLASS_PANE) {
 
 											givestack = main.multitoolutils.getToolInv(player).getItem(tooltype).clone();
 											main.lastblock.put(player.getUniqueId(), blocktype); //change the last block hit, if the tool was able to be changed
 											giveStack(givestack, player);
-											return;
 										}
 									}
 								} else {

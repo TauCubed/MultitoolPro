@@ -81,7 +81,7 @@ public class Multitool extends JavaPlugin implements Listener {
 
 		saveDefaultConfig();
 
-		System.out.println(prefix + ChatColor.GREEN + "Diverse Multitool enabled!");
+		System.out.println(prefix + ChatColor.GREEN + "Multitool Plus Pro enabled!");
 	}
 	
 	public void onDisable() {
@@ -91,7 +91,7 @@ public class Multitool extends JavaPlugin implements Listener {
 			configmanager.playerSave(player.getUniqueId(), null, "winginv.");
 		}
 		
-		System.out.println(prefix + ChatColor.RED + "Diverse Multitool disabled!");
+		System.out.println(prefix + ChatColor.RED + "Multitool Plus Pro disabled!");
 	}
 
 	public static Multitool getInstance() {
