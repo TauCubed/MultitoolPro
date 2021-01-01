@@ -12,6 +12,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import static me.darkolythe.multitool.SQLManager.createTableIfNotExists;
+
 public class Multitool extends JavaPlugin implements Listener {
 
 	public Map<UUID, Inventory> toolinv = new HashMap<>();
@@ -30,6 +32,8 @@ public class Multitool extends JavaPlugin implements Listener {
 	public Map<UUID, Boolean> dowarning = new HashMap<>();
 	public Map<UUID, Integer> warningpercent = new HashMap<>();
 
+	public static boolean sql;
+
 	public static List<String> soulbound = new ArrayList<>();
 	public static List<String> vanish = new ArrayList<>();
 	public static boolean dropondeath = false;
@@ -41,6 +45,7 @@ public class Multitool extends JavaPlugin implements Listener {
 	public MultitoolToolDetect multitooltooldetect;
 	public ConfigManager configmanager;
 	public MultitoolUtils multitoolutils;
+	public SQLManager sqlmanager;
 	
 	public void onEnable() {
 		plugin = this;
@@ -75,6 +80,11 @@ public class Multitool extends JavaPlugin implements Listener {
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			configmanager.playerLoad(player.getUniqueId(), "toolinv."); //load all the players on the server (on boot, there will be none, on reload, this is necessary)
 			configmanager.playerLoad(player.getUniqueId(), "winginv.");
+		}
+
+		if (sql) {
+			SQLManager.connect(this);
+			createTableIfNotExists();
 		}
 
 		Metrics metrics = new Metrics(plugin);

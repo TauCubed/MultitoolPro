@@ -32,6 +32,7 @@ public class MultitoolUtils implements Listener {
         main.prefix = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("prefix"));
         Multitool.soulbound = main.getConfig().getStringList("keepondeath");
         Multitool.vanish = main.getConfig().getStringList("loseondeath");
+        Multitool.sql = main.getConfig().getBoolean("enable_sql");
         main.messages.put("msgdrop", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgdrop").replace("%prefix%", main.prefix)));
         main.messages.put("msgremove", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgremove").replace("%prefix%", main.prefix)));
         main.messages.put("msgtoggleon", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgtoggleon").replace("%prefix%", main.prefix)));
@@ -59,14 +60,22 @@ public class MultitoolUtils implements Listener {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////Player leave and join
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        main.configmanager.playerLoad(event.getPlayer().getUniqueId(), "toolinv.");
-        main.configmanager.playerLoad(event.getPlayer().getUniqueId(), "winginv.");
+        if (!Multitool.sql) {
+            main.configmanager.playerLoad(event.getPlayer().getUniqueId(), "toolinv.");
+            main.configmanager.playerLoad(event.getPlayer().getUniqueId(), "winginv.");
+        } else {
+            SQLManager.getPlayerData(event.getPlayer(), false);
+        }
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
-        main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
+        if (!Multitool.sql) {
+            main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
+            main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
+        } else {
+            SQLManager.setPlayerData(event.getPlayer());
+        }
     }
 
 

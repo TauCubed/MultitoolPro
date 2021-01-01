@@ -1,4 +1,9 @@
 #This is the multitool config
+
+
+# GAME SETTINGS
+#####################################################################################################
+
 #drop all tools on death?
 dropondeath: false
 #if dropondeath is true, if the item being dropped contains the words below in their lore, they will be lost (like Curse of Vanishing)
@@ -6,11 +11,29 @@ loseondeath: ["Vanishing", "Unstable"]
 #if dropondeath is true, if the item being dropped contains the words below in their lore, they will be kept in the multitool inventory
 keepondeath: ["Soulbound"]
 
+
+# mySQL Options
+#####################################################################################################
+
+enable_sql: false
+host: "localhost"
+port: "3306"
+database: "database"
+username: "username"
+password: "password"
+
+
+# TRANSLATION OPTIONS
+#####################################################################################################
+
 mtoinv: "&9Multitools"
 mtwinv: "&9Multiarmour"
 
-prefix: "&f&l[&9&lMultitool&f&l] "
+
 #%prefix% = [prefix] before the message
+prefix: "&f&l[&9&lMultitool&f&l] "
+
+
 msgdrop: "%prefix%&cYou dropped your Multitool!"
 msgremove: "%prefix%&cYou removed your Multitool!"
 msgtoggleon: "%prefix%&aMultitool On!"
