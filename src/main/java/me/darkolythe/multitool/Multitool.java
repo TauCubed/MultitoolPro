@@ -29,8 +29,6 @@ public class Multitool extends JavaPlugin implements Listener {
 	public Map<String, String> messages = new HashMap<>();
 	public String mtoinv = ChatColor.BLUE + "Multitools";
 	public String mtwinv = ChatColor.BLUE + "Multiarmour";
-	public Map<UUID, Boolean> dowarning = new HashMap<>();
-	public Map<UUID, Integer> warningpercent = new HashMap<>();
 
 	public static boolean sql;
 

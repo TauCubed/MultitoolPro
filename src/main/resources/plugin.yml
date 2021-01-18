@@ -7,7 +7,7 @@ description: This plugin allows the use of multiple tools in one item, and switc
 
 commands:
     multitool:
-        usage: /<command> [open / toggle / reload / migrate / wings / togglewarning / warningpercent]
+        usage: /<command> [open / toggle / reload / migrate / wings]
         aliases: [mt]
         description: the main Multitool command
         permission: multitool.command
@@ -31,9 +31,6 @@ permissions:
         default: op
     multitool.multiarmour:
         description: Allows the use of the elytra/chestplate multi armour
-        default: op
-    multitool.durabilitywarning:
-        description: Allows the user to toggle durability warnings (The default toggle state is off)
         default: op
     multitool.tool.sword:
         description: Allows the user to put a sword in the multitool
@@ -69,4 +66,3 @@ permissions:
             multitool.migrate: true
             multitool.reload: true
             multitool.multiarmour: true
-            multitool.durabilitywarning: true

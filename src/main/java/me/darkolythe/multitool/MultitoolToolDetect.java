@@ -89,8 +89,6 @@ private Multitool main;
 	private void setItem(Player player, Block block, boolean isEntity, boolean isShifting) {
 		if (player.hasPermission("multitool.use")) { //If the player has permission, continue
 
-			main.multitoolevents.warningCheck(player); //check for low durability
-
 			if (main.multitoolutils.getToggle(player.getUniqueId())) {
 				//Get item in player"s hand
 				ItemStack handitem = player.getInventory().getItemInMainHand();

@@ -49,10 +49,6 @@ public class MultitoolUtils implements Listener {
         main.messages.put("msgnotonline", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgnotonline").replace("%prefix%", main.prefix)));
         main.messages.put("msgitemframe", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgitemframe").replace("%prefix%", main.prefix)));
         main.messages.put("msgarmourstand", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgarmourstand").replace("%prefix%", main.prefix)));
-        main.messages.put("msglowdurability", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
-        main.messages.put("msgwarningtoggleon", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
-        main.messages.put("msgwarningtoggleoff", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msglowdurability").replace("%prefix%", main.prefix)));
-        main.messages.put("msgwarningpercent", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgwarningpercent").replace("%prefix%", main.prefix)));
         main.mtoinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtoinv"));
         main.mtwinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtwinv"));
     }
@@ -118,20 +114,6 @@ public class MultitoolUtils implements Listener {
             main.winginv.put(player.getUniqueId(), inv);
         }
         return main.winginv.get(player.getUniqueId());
-    }
-
-    public boolean getDoWarning(Player player) {
-        if (!main.dowarning.containsKey(player.getUniqueId())) {
-            main.dowarning.put(player.getUniqueId(), false);
-        }
-        return main.dowarning.get(player.getUniqueId());
-    }
-
-    public int getWarningPercent(Player player) {
-        if (!main.warningpercent.containsKey(player.getUniqueId())) {
-            main.warningpercent.put(player.getUniqueId(), 10);
-        }
-        return main.warningpercent.get(player.getUniqueId());
     }
 
     public boolean isTool(ItemStack item, String lore) {
@@ -217,15 +199,6 @@ public class MultitoolUtils implements Listener {
             return true;
         }
         return false;
-    }
-
-    public Boolean stringCanInteger(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     public void addPlaceholders() {

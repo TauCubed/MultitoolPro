@@ -83,10 +83,6 @@ public class ConfigManager {
             }
             main.winginv.put(uuid, winv);
         }
-        if (playerDataConfig.contains("warningdata." + uuid)) {
-            main.dowarning.put(uuid, playerDataConfig.getBoolean("warningdata." + uuid + ".dowarning"));
-            main.warningpercent.put(uuid, playerDataConfig.getInt("warningdata." + uuid + ".warningpercent"));
-        }
     }
     
     public void playerSave(UUID uuid, Inventory inv, String invdir) {
@@ -116,12 +112,6 @@ public class ConfigManager {
                     saveItem(playerDataConfig.createSection(invdir + uuid + "." + c++), airstack); //if there's nothing in a slot, save it as air
                 }
             }
-        }
-
-        if (main.dowarning.containsKey(uuid) && main.warningpercent.containsKey(uuid)) {
-            playerDataConfig.createSection("warningdata." + uuid);
-            playerDataConfig.set("warningdata." + uuid + ".dowarning", main.dowarning.get(uuid));
-            playerDataConfig.set("warningdata." + uuid + ".warningpercent", main.warningpercent.get(uuid));
         }
 
         try {
