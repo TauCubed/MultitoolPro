@@ -23,7 +23,7 @@ public class MultitoolCommand implements CommandExecutor {
 							if (player.hasPermission("multitool.use")) {
 								player.openInventory(main.multitoolutils.getToolInv(player));
 							} else {
-								player.sendMessage(main.messages.get("msgnopemrmissions"));
+								sender.sendMessage(main.messages.get("msgnopermission"));
 							}
 						} else if (args[0].equalsIgnoreCase("Toggle") || args[0].equalsIgnoreCase("T")) {
 							main.multitoolutils.setToggle(player.getUniqueId(), !main.multitoolutils.getToggle(player.getUniqueId()));
@@ -54,7 +54,7 @@ public class MultitoolCommand implements CommandExecutor {
 							if (player.hasPermission("multitool.multiarmour")) {
 								player.openInventory(main.multitoolutils.getWingInv(player));
 							} else {
-								player.sendMessage(main.messages.get("msgnopermissions"));
+								sender.sendMessage(main.messages.get("msgnopermission"));
 							}
 						} else {
 							if (!player.hasPermission("multitool.migrate")) {
