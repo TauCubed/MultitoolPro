@@ -20,7 +20,11 @@ public class MultitoolCommand implements CommandExecutor {
 				if (cmd.getName().equalsIgnoreCase("Multitool")) {
 					if (args.length == 1) {
 						if (args[0].equalsIgnoreCase("Open") || args[0].equalsIgnoreCase("O")) {
-							player.openInventory(main.multitoolutils.getToolInv(player));
+							if (player.hasPermission("multitool.use")) {
+								player.openInventory(main.multitoolutils.getToolInv(player));
+							} else {
+								player.sendMessage(main.messages.get("msgnopemrmissions"));
+							}
 						} else if (args[0].equalsIgnoreCase("Toggle") || args[0].equalsIgnoreCase("T")) {
 							main.multitoolutils.setToggle(player.getUniqueId(), !main.multitoolutils.getToggle(player.getUniqueId()));
 							if (main.multitoolutils.getToggle(player.getUniqueId())) {
@@ -47,7 +51,11 @@ public class MultitoolCommand implements CommandExecutor {
 								sender.sendMessage(main.messages.get("msgnopermission"));
 							}
 						} else if (args[0].equalsIgnoreCase("Wings") || args[0].equalsIgnoreCase("W")) {
-							player.openInventory(main.multitoolutils.getWingInv(player));
+							if (player.hasPermission("multitool.multiarmour")) {
+								player.openInventory(main.multitoolutils.getWingInv(player));
+							} else {
+								player.sendMessage(main.messages.get("msgnopermissions"));
+							}
 						} else if (args[0].equalsIgnoreCase("ToggleWarning") || args[0].equalsIgnoreCase("TW")) {
 							if (player.hasPermission("multitool.durabilitywarning")) {
 								if (main.dowarning.containsKey(player.getUniqueId())) {
