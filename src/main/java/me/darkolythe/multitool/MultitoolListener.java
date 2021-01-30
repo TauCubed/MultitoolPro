@@ -1,5 +1,6 @@
 package me.darkolythe.multitool;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -204,16 +205,53 @@ public class MultitoolListener implements Listener {
 		ItemStack mendItem = event.getItem();
 		int amt = event.getRepairAmount();
 
-		System.out.println(amt);
+		List<ItemStack> items = new ArrayList<>();
 
 		if (main.multitoolutils.isTool(mendItem, main.toollore)) {
-
+			for (ItemStack item : main.toolinv.get(player.getUniqueId())) {
+				if (item == null) {
+					continue;
+				}
+				if (!item.containsEnchantment(Enchantment.MENDING)) {
+					continue;
+				}
+				if (item.getDurability() == 0) {
+					continue;
+				}
+				items.add(item);
+			}
+		} else if (main.multitoolutils.isTool(mendItem, main.winglore)) {
+			for (ItemStack item : main.winginv.get(player.getUniqueId())) {
+				if (item == null) {
+					continue;
+				}
+				if (!item.containsEnchantment(Enchantment.MENDING)) {
+					continue;
+				}
+				if (item.getDurability() == 0) {
+					continue;
+				}
+				items.add(item);
+			}
 		}
 
-		if (main.multitoolutils.isTool(mendItem, main.winglore)) {
+		if (items.size() > 0) {
+			event.setRepairAmount(0);
+			event.getExperienceOrb().setExperience(0);
 
+			int count = 0;
+			for (ItemStack item : items) {
+				int per_amt = amt / (items.size() - count);
+				count++;
+
+				int dura_left = Math.min(item.getDurability(), per_amt);
+
+				item.setDurability((short) (item.getDurability() - dura_left));
+				amt -= dura_left;
+			}
+			player.giveExp(amt);
+			main.multitoolutils.updateMTItems(player);
 		}
-
 	}
 
 	@EventHandler

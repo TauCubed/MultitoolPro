@@ -241,4 +241,33 @@ public class MultitoolUtils implements Listener {
             main.wingholders.add(ph); //add all the items to a list with place holder glass panes
         }
     }
+
+    // loops through mt and wing inventories and updates the players items
+    public void updateMTItems(Player player) {
+        if (isTool(player.getInventory().getItemInMainHand(), main.toollore)) {
+            for (int i = 0; i < 9; i++) {
+                ItemStack mt_i = getToolInv(player).getItem(i);
+                ItemStack p_i = player.getInventory().getItemInMainHand();
+                if (mt_i != null) {
+                    if (mt_i.getType() == p_i.getType()) {
+                        main.multitooltooldetect.giveStack(mt_i.clone(), player);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (isTool(player.getInventory().getChestplate(), main.winglore)) {
+            for (int i = 0; i < 4; i++) {
+                ItemStack w_i = getWingInv(player).getItem(i);
+                ItemStack p_i = player.getInventory().getChestplate();
+
+                if (w_i != null && p_i != null) {
+                    if (w_i.getType() == p_i.getType()) {
+                        main.wingdetect.giveWings(w_i.clone(), player);
+                    }
+                }
+            }
+        }
+    }
 }

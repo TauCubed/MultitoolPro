@@ -72,10 +72,14 @@ public class WingDetect implements Listener {
             } else {
                 newchest = inv.getItem(2).clone();
             }
-            ItemMeta newchestmeta = newchest.getItemMeta();
-            newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta, main.winglore, false));
-            newchest.setItemMeta(newchestmeta);
-            player.getInventory().setChestplate(newchest);
+            giveWings(newchest, player);
         }
+    }
+
+    public void giveWings(ItemStack item, Player player) {
+        ItemMeta newchestmeta = item.getItemMeta();
+        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta, main.winglore, false));
+        item.setItemMeta(newchestmeta);
+        player.getInventory().setChestplate(item);
     }
 }
