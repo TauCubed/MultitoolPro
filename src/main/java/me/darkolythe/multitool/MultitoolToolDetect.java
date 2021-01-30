@@ -93,47 +93,45 @@ private Multitool main;
 				//Get item in player"s hand
 				ItemStack handitem = player.getInventory().getItemInMainHand();
 
-				if (handitem.getType() != Material.AIR && handitem.getAmount() > 0) {
-					if (main.multitoolutils.isTool(handitem, main.toollore)) {
-						ItemStack givestack = new ItemStack(Material.AIR, 0);
-						setMTItem(player, true);
-						if (isEntity && !isShifting) { //if the block is air, make it a sword, else, continue
-							giveSword(player);
-						} else if (isEntity) {
-							if (main.multitoolutils.getToolInv(player).getItem(5) != null) {
-								if (main.multitoolutils.getToolInv(player).getItem(5).getType() != Material.GRAY_STAINED_GLASS_PANE) {
-									givestack = main.multitoolutils.getToolInv(player).getItem(5).clone();
-									main.lastblock.put(player.getUniqueId(), Material.BEDROCK); //change the last block hit, if the tool was able to be changed
-									giveStack(givestack, player);
-									return;
-								}
+				if (main.multitoolutils.isTool(handitem, main.toollore)) {
+					ItemStack givestack = new ItemStack(Material.AIR, 0);
+					setMTItem(player, true);
+					if (isEntity && !isShifting) { //if the block is air, make it a sword, else, continue
+						giveSword(player);
+					} else if (isEntity) {
+						if (main.multitoolutils.getToolInv(player).getItem(5) != null) {
+							if (main.multitoolutils.getToolInv(player).getItem(5).getType() != Material.GRAY_STAINED_GLASS_PANE) {
+								givestack = main.multitoolutils.getToolInv(player).getItem(5).clone();
+								main.lastblock.put(player.getUniqueId(), Material.BEDROCK); //change the last block hit, if the tool was able to be changed
+								giveStack(givestack, player);
+								return;
 							}
-						} else {
-							//if the air was not clicked, continue down the checklist
-							//Check what material it is, and change the tool
-							if (block != null) {
-								Material blocktype = block.getType();
+						}
+					} else {
+						//if the air was not clicked, continue down the checklist
+						//Check what material it is, and change the tool
+						if (block != null) {
+							Material blocktype = block.getType();
 
-								if (blocktype != main.multitoolutils.getLastBlock(player.getUniqueId())) {
+							if (blocktype != main.multitoolutils.getLastBlock(player.getUniqueId())) {
 
-									int tooltype = getToolType(blocktype);
+								int tooltype = getToolType(blocktype);
 
-									if (isShifting && tooltype == 3) {
-										tooltype = 4;
-									}
-
-									if (main.multitoolutils.getToolInv(player).getItem(tooltype) != null) {
-										if (main.multitoolutils.getToolInv(player).getItem(tooltype).getType() != Material.GRAY_STAINED_GLASS_PANE) {
-
-											givestack = main.multitoolutils.getToolInv(player).getItem(tooltype).clone();
-											main.lastblock.put(player.getUniqueId(), blocktype); //change the last block hit, if the tool was able to be changed
-											giveStack(givestack, player);
-										}
-									}
-								} else {
-									givestack.setType(Material.AIR);
-									giveStack(givestack, player);
+								if (isShifting && tooltype == 3) {
+									tooltype = 4;
 								}
+
+								if (main.multitoolutils.getToolInv(player).getItem(tooltype) != null) {
+									if (main.multitoolutils.getToolInv(player).getItem(tooltype).getType() != Material.GRAY_STAINED_GLASS_PANE) {
+
+										givestack = main.multitoolutils.getToolInv(player).getItem(tooltype).clone();
+										main.lastblock.put(player.getUniqueId(), blocktype); //change the last block hit, if the tool was able to be changed
+										giveStack(givestack, player);
+									}
+								}
+							} else {
+								givestack.setType(Material.AIR);
+								giveStack(givestack, player);
 							}
 						}
 					}

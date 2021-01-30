@@ -15,10 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.*;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerItemBreakEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -202,22 +199,49 @@ public class MultitoolListener implements Listener {
 	}
 
 	@EventHandler
+	private void playerMendEvent(PlayerItemMendEvent event) {
+		Player player = event.getPlayer();
+		ItemStack mendItem = event.getItem();
+		int amt = event.getRepairAmount();
+
+		System.out.println(amt);
+
+		if (main.multitoolutils.isTool(mendItem, main.toollore)) {
+
+		}
+
+		if (main.multitoolutils.isTool(mendItem, main.winglore)) {
+
+		}
+
+	}
+
+	@EventHandler
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		ItemStack handitem = player.getInventory().getItemInMainHand();
-		if (main.multitoolutils.isTool(handitem, main.toollore) || main.multitoolutils.isTool(handitem, main.winglore)) {
+		boolean isTool = main.multitoolutils.isTool(handitem, main.toollore);
+		boolean isWing = main.multitoolutils.isTool(handitem, main.winglore);
+
+		if (isTool || isWing) {
 			Entity ent = event.getRightClicked();
 			if (ent.getType() == EntityType.ITEM_FRAME) {
-				if (((ItemFrame)ent).getItem().getType() == Material.AIR) {
-					event.setCancelled(true);
-					player.sendMessage(main.messages.get("msgitemframe"));
-				}
-			} else if (ent.getType() == EntityType.ARMOR_STAND) {
-				if (((ArmorStand)ent).getItemInHand().getType() == Material.AIR) {
-					event.setCancelled(true);
-					player.sendMessage(main.messages.get("msgarmourstand"));
-				}
+				event.setCancelled(true);
+				player.sendMessage(main.messages.get("msgitemframe"));
 			}
+		}
+	}
+
+	@EventHandler
+	public void onArmourStandEdit(PlayerArmorStandManipulateEvent event) {
+		Player player = event.getPlayer();
+		ItemStack handItem = player.getInventory().getItemInMainHand();
+		boolean isTool = main.multitoolutils.isTool(handItem, main.toollore);
+		boolean isWing = main.multitoolutils.isTool(handItem, main.winglore);
+
+		if (isTool || isWing) {
+			event.setCancelled(true);
+			player.sendMessage(main.messages.get("msgarmourstand"));
 		}
 	}
 }
