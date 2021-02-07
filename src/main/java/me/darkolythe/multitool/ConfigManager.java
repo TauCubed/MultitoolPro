@@ -60,7 +60,6 @@ public class ConfigManager {
                     inv.setItem(index, main.placeholders.get(index));
                 }
             }
-            main.lastblock.put(uuid, null); //set the default value for last block hit upon player join
             main.toolinv.put(uuid, inv);
         } else {
             Inventory winv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, main.mtwinv); //create the mv inv

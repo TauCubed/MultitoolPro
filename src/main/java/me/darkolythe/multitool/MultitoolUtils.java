@@ -87,13 +87,6 @@ public class MultitoolUtils implements Listener {
         main.toggle.put(uuid, bool);
     }
 
-    public Material getLastBlock(UUID uuid) {
-        if (!main.lastblock.containsKey(uuid)) {
-            main.lastblock.put(uuid, null);
-        }
-        return main.lastblock.get(uuid);
-    }
-
     public Inventory getToolInv(Player player) {
         if (!main.toolinv.containsKey(player.getUniqueId())) {
             Inventory inv = Bukkit.getServer().createInventory(player, InventoryType.DISPENSER, main.mtoinv); //create the mv inv

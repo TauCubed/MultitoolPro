@@ -158,7 +158,6 @@ public class MultitoolInventory implements Listener {
 										if (giveitem && !hasitem) {
 											plrinv.addItem(genstack);
 											player.sendMessage(main.messages.get("msggiven"));
-											main.lastblock.put(player.getUniqueId(), Material.AIR);
 										} else if (!giveitem) {
 											player.sendMessage(main.messages.get("msgnospace"));
 										} else {

@@ -88,7 +88,6 @@ public class SQLManager {
         for (int index = 0; index < 9; index++) {
             inv.setItem(index, main.placeholders.get(index));
         }
-        main.lastblock.put(uuid, null); //set the default value for last block hit upon player join
         main.toolinv.put(uuid, inv);
 
         for (int index = 0; index < 5; index++) {

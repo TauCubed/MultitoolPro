@@ -21,7 +21,6 @@ public class Multitool extends JavaPlugin implements Listener {
 	public List<ItemStack> placeholders = new ArrayList<>();
 	public List<ItemStack> wingholders = new ArrayList<>();
 	public Map<UUID, Boolean> toggle = new HashMap<>();
-	public Map<UUID, Material> lastblock = new HashMap<>();
 	public String prefix = ChatColor.WHITE.toString() + ChatColor.BOLD.toString() + "[" + ChatColor.BLUE.toString() + "Multitool" + ChatColor.WHITE.toString() + ChatColor.BOLD.toString() + "] ";
 	public String toollore = ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + "Multitool";
 	public String winglore = ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + "Multiarmour";

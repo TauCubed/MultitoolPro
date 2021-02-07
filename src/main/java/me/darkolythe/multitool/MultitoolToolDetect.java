@@ -90,7 +90,7 @@ private Multitool main;
 		if (player.hasPermission("multitool.use")) { //If the player has permission, continue
 
 			if (main.multitoolutils.getToggle(player.getUniqueId())) {
-				//Get item in player"s hand
+				//Get item in player's hand
 				ItemStack handitem = player.getInventory().getItemInMainHand();
 
 				if (main.multitoolutils.isTool(handitem, main.toollore)) {
@@ -102,7 +102,6 @@ private Multitool main;
 						if (main.multitoolutils.getToolInv(player).getItem(5) != null) {
 							if (main.multitoolutils.getToolInv(player).getItem(5).getType() != Material.GRAY_STAINED_GLASS_PANE) {
 								givestack = main.multitoolutils.getToolInv(player).getItem(5).clone();
-								main.lastblock.put(player.getUniqueId(), Material.BEDROCK); //change the last block hit, if the tool was able to be changed
 								giveStack(givestack, player);
 								return;
 							}
@@ -113,25 +112,18 @@ private Multitool main;
 						if (block != null) {
 							Material blocktype = block.getType();
 
-							if (blocktype != main.multitoolutils.getLastBlock(player.getUniqueId())) {
+							int tooltype = getToolType(blocktype);
 
-								int tooltype = getToolType(blocktype);
+							if (isShifting && tooltype == 3) {
+								tooltype = 4;
+							}
 
-								if (isShifting && tooltype == 3) {
-									tooltype = 4;
+							if (main.multitoolutils.getToolInv(player).getItem(tooltype) != null) {
+								if (main.multitoolutils.getToolInv(player).getItem(tooltype).getType() != Material.GRAY_STAINED_GLASS_PANE) {
+
+									givestack = main.multitoolutils.getToolInv(player).getItem(tooltype).clone();
+									giveStack(givestack, player);
 								}
-
-								if (main.multitoolutils.getToolInv(player).getItem(tooltype) != null) {
-									if (main.multitoolutils.getToolInv(player).getItem(tooltype).getType() != Material.GRAY_STAINED_GLASS_PANE) {
-
-										givestack = main.multitoolutils.getToolInv(player).getItem(tooltype).clone();
-										main.lastblock.put(player.getUniqueId(), blocktype); //change the last block hit, if the tool was able to be changed
-										giveStack(givestack, player);
-									}
-								}
-							} else {
-								givestack.setType(Material.AIR);
-								giveStack(givestack, player);
 							}
 						}
 					}
@@ -149,12 +141,9 @@ private Multitool main;
 	public boolean giveSword(Player player) {
 		if (main.multitoolutils.getToolInv(player).getItem(0) != null) {
 			if (main.multitoolutils.getToolInv(player).getItem(0).getType() != Material.GRAY_STAINED_GLASS_PANE) {
-				if (Material.AIR != main.multitoolutils.getLastBlock(player.getUniqueId())) {
-					ItemStack givestack = main.multitoolutils.getToolInv(player).getItem(0).clone();
-					main.lastblock.put(player.getUniqueId(), Material.AIR);
-					giveStack(givestack, player);
-					return true;
-				}
+				ItemStack givestack = main.multitoolutils.getToolInv(player).getItem(0).clone();
+				giveStack(givestack, player);
+				return true;
 			}
 		}
 		return false;
