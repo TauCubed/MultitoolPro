@@ -62,6 +62,7 @@ private Multitool main;
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
+		System.out.println("here");
 		
 		//Get player action
 		Action action = event.getAction();

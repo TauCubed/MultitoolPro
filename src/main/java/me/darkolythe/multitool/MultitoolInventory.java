@@ -185,7 +185,8 @@ public class MultitoolInventory implements Listener {
 												if (imeta.hasLore()) {
 													for (String l : imeta.getLore()) {
 														if (l.equals(main.toollore)) {
-															plrinv.remove(i);
+															i.setAmount(0);
+															player.updateInventory();
 															player.sendMessage(main.messages.get("msgtoolremoved"));
 															event.setCancelled(true);
 															return;
