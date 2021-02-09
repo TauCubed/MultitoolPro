@@ -31,6 +31,7 @@ public class MultitoolUtils implements Listener {
         main.reloadConfig();
         main.prefix = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("prefix"));
         Multitool.soulbound = main.getConfig().getStringList("keepondeath");
+        Multitool.whitelist = main.getConfig().getStringList("whitelisted_worlds");
         Multitool.vanish = main.getConfig().getStringList("loseondeath");
         Multitool.sql = main.getConfig().getBoolean("enable_sql");
         main.messages.put("msgdrop", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgdrop").replace("%prefix%", main.prefix)));
@@ -49,6 +50,7 @@ public class MultitoolUtils implements Listener {
         main.messages.put("msgnotonline", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgnotonline").replace("%prefix%", main.prefix)));
         main.messages.put("msgitemframe", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgitemframe").replace("%prefix%", main.prefix)));
         main.messages.put("msgarmourstand", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgarmourstand").replace("%prefix%", main.prefix)));
+        main.messages.put("msgwrongworld", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgwrongworld").replace("%prefix%", main.prefix)));
         main.mtoinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtoinv"));
         main.mtwinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtwinv"));
     }

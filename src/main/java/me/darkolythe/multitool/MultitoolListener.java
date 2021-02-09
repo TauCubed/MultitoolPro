@@ -31,23 +31,39 @@ public class MultitoolListener implements Listener {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Make sure player isnt removing MT from inv
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent event) {
+		Player player = event.getPlayer();
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
+
 		Item dropitem = event.getItemDrop();
 		ItemStack dropstack = dropitem.getItemStack();
 		if (main.multitoolutils.isTool(dropstack, main.toollore) || main.multitoolutils.isTool(dropstack, main.winglore)) {
 			dropitem.remove();
-			event.getPlayer().sendMessage(main.messages.get("msgdrop"));
+			player.sendMessage(main.messages.get("msgdrop"));
 		}
 	}
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
 		Player player = (Player)event.getPlayer();
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
+
 		main.openinv.remove(player);
 	}
 
 	@EventHandler
 	public void onInventoryOpen(InventoryOpenEvent event) {
 		Player player = (Player)event.getPlayer();
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
+
 		Inventory inv = main.multitoolutils.getToolInv(player);
 		inv.setItem(8, new ItemStack(Material.AIR));
 		inv.setItem(6, new ItemStack(Material.AIR));
@@ -56,6 +72,11 @@ public class MultitoolListener implements Listener {
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent event) {
 		ItemStack brokenitem = event.getBrokenItem();
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(event.getPlayer().getWorld().getName())) {
+			return;
+		}
+
 		if (main.multitoolutils.isTool(brokenitem, main.toollore)) {
 			Inventory mtinv = main.multitoolutils.getToolInv(event.getPlayer()); //create inventory of mtinv
 			for (int i = 0; i < 4; i++) {
@@ -76,6 +97,11 @@ public class MultitoolListener implements Listener {
 	@EventHandler
 	public void onInventoryCheck(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(event.getWhoClicked().getWorld().getName())) {
+			return;
+		}
+
 		if ((event.getClickedInventory() != player.getInventory()) || (event.isShiftClick() && player.getOpenInventory().getType() != InventoryType.CRAFTING)) {
 			if ((player.getItemOnCursor().getType() != Material.AIR)) {
 				ItemStack cursorstack = player.getItemOnCursor();
@@ -114,6 +140,10 @@ public class MultitoolListener implements Listener {
 
 	@EventHandler
 	public void onInventoryDrag(InventoryDragEvent event) {
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(event.getWhoClicked().getWorld().getName())) {
+			return;
+		}
+
 		if (event.getOldCursor().getType() != Material.AIR) {
 			if (event.getInventory().getType() != InventoryType.CRAFTING) {
 				ItemStack clickstack = event.getOldCursor();
@@ -126,9 +156,14 @@ public class MultitoolListener implements Listener {
 
 	@EventHandler
 	public void onItemSwap(PlayerSwapHandItemsEvent event) {
-		if (event.getPlayer().isSneaking()) {
+		Player player = event.getPlayer();
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
+
+		if (player.isSneaking()) {
 			if (main.multitoolutils.isTool(event.getOffHandItem(), main.toollore)) {
-				Player player = event.getPlayer();
 				main.multitoolutils.setToggle(player.getUniqueId(), !main.multitoolutils.getToggle(player.getUniqueId()));
 				if (main.multitoolutils.getToggle(player.getUniqueId())) {
 					player.sendMessage(main.messages.get("msgtoggleon"));
@@ -143,6 +178,11 @@ public class MultitoolListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
+
 		if (!event.getKeepInventory()) {
 			if (Multitool.dropondeath) {
 				if (main.toolinv.containsKey(player.getUniqueId())) {
@@ -205,6 +245,10 @@ public class MultitoolListener implements Listener {
 		ItemStack mendItem = event.getItem();
 		int amt = event.getRepairAmount();
 
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
+
 		List<ItemStack> items = new ArrayList<>();
 
 		if (main.multitoolutils.isTool(mendItem, main.toollore)) {
@@ -261,6 +305,10 @@ public class MultitoolListener implements Listener {
 		boolean isTool = main.multitoolutils.isTool(handitem, main.toollore);
 		boolean isWing = main.multitoolutils.isTool(handitem, main.winglore);
 
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
+
 		if (isTool || isWing) {
 			Entity ent = event.getRightClicked();
 			if (ent.getType() == EntityType.ITEM_FRAME) {
@@ -276,6 +324,10 @@ public class MultitoolListener implements Listener {
 		ItemStack handItem = player.getInventory().getItemInMainHand();
 		boolean isTool = main.multitoolutils.isTool(handItem, main.toollore);
 		boolean isWing = main.multitoolutils.isTool(handItem, main.winglore);
+
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
 
 		if (isTool || isWing) {
 			event.setCancelled(true);

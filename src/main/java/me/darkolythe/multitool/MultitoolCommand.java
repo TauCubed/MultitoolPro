@@ -16,6 +16,10 @@ public class MultitoolCommand implements CommandExecutor {
 
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
+			if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+				sender.sendMessage(main.messages.get("msgwrongworld"));
+				return true;
+			}
 			if (player.hasPermission("multitool.command")) {
 				if (cmd.getName().equalsIgnoreCase("Multitool")) {
 					if (args.length == 1) {
