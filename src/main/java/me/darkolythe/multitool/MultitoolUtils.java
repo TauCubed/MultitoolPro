@@ -51,6 +51,17 @@ public class MultitoolUtils implements Listener {
         main.messages.put("msgitemframe", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgitemframe").replace("%prefix%", main.prefix)));
         main.messages.put("msgarmourstand", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgarmourstand").replace("%prefix%", main.prefix)));
         main.messages.put("msgwrongworld", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgwrongworld").replace("%prefix%", main.prefix)));
+
+        main.messages.put("swordhere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("swordhere").replace("%prefix%", main.prefix)));
+        main.messages.put("pickaxehere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("pickaxehere").replace("%prefix%", main.prefix)));
+        main.messages.put("axehere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("axehere").replace("%prefix%", main.prefix)));
+        main.messages.put("shovelhere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("shovelhere").replace("%prefix%", main.prefix)));
+        main.messages.put("hoehere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("hoehere").replace("%prefix%", main.prefix)));
+        main.messages.put("shearshere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("shearshere").replace("%prefix%", main.prefix)));
+        main.messages.put("clickfeather", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("clickfeather").replace("%prefix%", main.prefix)));
+        main.messages.put("chestplatehere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("chestplatehere").replace("%prefix%", main.prefix)));
+        main.messages.put("elytrahere", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("elytrahere").replace("%prefix%", main.prefix)));
+
         main.mtoinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtoinv"));
         main.mtwinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtwinv"));
     }
@@ -197,12 +208,12 @@ public class MultitoolUtils implements Listener {
     }
 
     public void addPlaceholders() {
-        String[] names = new String[]{ChatColor.GREEN + "Put Sword Here", ChatColor.GREEN + "Put Pickaxe Here", ChatColor.GREEN + "Put Axe Here",
-                ChatColor.GREEN + "Put Shovel Here", ChatColor.GREEN + "Put Hoe Here", ChatColor.GREEN + "Put Shears Here", "",
+        String[] names = new String[]{main.messages.get("swordhere"), main.messages.get("pickaxehere"), main.messages.get("axehere"),
+                main.messages.get("shovelhere"), main.messages.get("hoehere"), main.messages.get("shearshere"), "",
                 ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + "Multitool", ""};
-        String[] wnames = new String[]{"", ChatColor.GREEN + "Put Chestplate Here", ChatColor.GREEN + "Put Elytra Here", "",
+        String[] wnames = new String[]{"", main.messages.get("chestplatehere"), main.messages.get("elytrahere"), "",
                 ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + "Multiarmour"};
-        String lore = ChatColor.AQUA + "Click this feather to generate your Multitool.";
+        String lore = main.messages.get("clickfeather");
 
         for (int i = 0; i < 9; i++) {
             ItemStack ph = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1); //create gray stained glass
