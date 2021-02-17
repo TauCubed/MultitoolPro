@@ -51,6 +51,8 @@ public class MultitoolUtils implements Listener {
         main.messages.put("msgarmourstand", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgarmourstand").replace("%prefix%", main.prefix)));
         main.mtoinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtoinv"));
         main.mtwinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtwinv"));
+        main.toollore = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("multitool"));
+        main.winglore = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("multiarmour"));
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////Player leave and join

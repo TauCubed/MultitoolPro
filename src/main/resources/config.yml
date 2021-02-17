@@ -30,6 +30,11 @@ mtoinv: "&9Multitools"
 mtwinv: "&9Multiarmour"
 
 
+# NOTE: These two CANNOT be the same
+multitool: "&9&lMultitool"
+multiarmour: "&9&lMultiarmour"
+
+
 #%prefix% = [prefix] before the message
 prefix: "&f&l[&9&lMultitool&f&l] "
 
