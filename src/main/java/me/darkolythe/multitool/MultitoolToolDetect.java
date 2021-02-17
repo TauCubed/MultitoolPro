@@ -86,6 +86,9 @@ private Multitool main;
 	}
 
 	private void setItem(Player player, Block block, boolean isEntity, boolean isShifting) {
+		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+			return;
+		}
 		if (player.hasPermission("multitool.use")) { //If the player has permission, continue
 
 			if (main.multitoolutils.getToggle(player.getUniqueId())) {

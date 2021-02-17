@@ -23,6 +23,10 @@ public class WingDetect implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+        if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
+            return;
+        }
+        
         if (player.hasPermission("multitool.multiarmour")) {
             if (player.getInventory().getChestplate() != null) {
                 ItemStack chest = player.getInventory().getChestplate().clone();

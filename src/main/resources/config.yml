@@ -10,6 +10,8 @@ dropondeath: false
 loseondeath: ["Vanishing", "Unstable"]
 #if dropondeath is true, if the item being dropped contains the words below in their lore, they will be kept in the multitool inventory
 keepondeath: ["Soulbound"]
+# leave empty to allow all worlds. type world names to create a whitelist. ex: whitelisted_worlds: ["creative", "skyblock"]
+whitelisted_worlds: []
 
 
 # mySQL Options
@@ -55,3 +57,14 @@ msgnopermission: "%prefix%&cYou do not have permission to do that!"
 msgnotonline: "%prefix%&cThat player is not online!"
 msgitemframe: "%prefix%&cYou cannot give your multitool to item frames!"
 msgarmourstand: "%prefix%&cYou cannot give your multitool to armour stands!"
+msgwrongworld: "%prefix%&cYou are in the wrong world!"
+
+swordhere: "&aPut Sword Here"
+pickaxehere: "&aPut Pickaxe Here"
+axehere: "&aPut Axe Here"
+shovelhere: "&aPut Shovel Here"
+hoehere: "&aPut Hoe Here"
+shearshere: "&aPut Shears Here"
+clickfeather: "&aClick this feather to generate your Multitool."
+chestplatehere: "&aPut Chestplate Here"
+elytrahere: "&aPut Elytra Here"
