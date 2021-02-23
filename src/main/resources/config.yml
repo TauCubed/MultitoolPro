@@ -28,6 +28,9 @@ password: "password"
 # TRANSLATION OPTIONS
 #####################################################################################################
 
+# enable this to show a list of tools in the multitool in the lore
+tool-list-lore: true
+
 mtoinv: "&9Multitools"
 mtwinv: "&9Multiarmour"
 
