@@ -293,7 +293,7 @@ public class MultitoolUtils implements Listener {
                                 main.colourKey + "- " + tool.getItemMeta().getDisplayName(), false));
                     } else {
                         givemeta.setLore(main.multitoolutils.addLore(givemeta,
-                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(tool.getType().toString().toLowerCase()),
+                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(tool.getType().toString().toLowerCase().replaceAll("_", " ")),
                                 false));
                     }
                 }
@@ -314,7 +314,7 @@ public class MultitoolUtils implements Listener {
                                 main.colourKey + "- " + wing.getItemMeta().getDisplayName(), false));
                     } else {
                         newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta,
-                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(wing.getType().toString().toLowerCase()),
+                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(wing.getType().toString().toLowerCase().replaceAll("_", " ")),
                                 false));
                     }
                 }
