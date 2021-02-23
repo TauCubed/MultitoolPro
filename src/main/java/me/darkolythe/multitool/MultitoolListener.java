@@ -243,7 +243,7 @@ public class MultitoolListener implements Listener {
 	private void playerMendEvent(PlayerItemMendEvent event) {
 		Player player = event.getPlayer();
 		ItemStack mendItem = event.getItem();
-		int amt = event.getRepairAmount();
+		int amt = event.getExperienceOrb().getExperience() * 2;
 
 		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
 			return;

@@ -32,15 +32,9 @@ mtoinv: "&9Multitools"
 mtwinv: "&9Multiarmour"
 
 
-# set this to true to show the tools that are in the multitool in the lore
-# ex:
-#
-# Multitool
-# tools:
-# - diamond pickaxe
-# - diamond axe
-# - netherite hoe
-tool-list-lore: false
+# NOTE: These two CANNOT be the same
+multitool: "&9&lMultitool"
+multiarmour: "&9&lMultiarmour"
 
 
 #%prefix% = [prefix] before the message

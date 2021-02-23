@@ -64,6 +64,8 @@ public class MultitoolUtils implements Listener {
 
         main.mtoinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtoinv"));
         main.mtwinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtwinv"));
+        main.toollore = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("multitool"));
+        main.winglore = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("multiarmour"));
         main.mtLoreList = main.getConfig().getBoolean("tool-list-lore");
     }
 
