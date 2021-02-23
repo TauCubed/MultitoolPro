@@ -1,5 +1,6 @@
 package me.darkolythe.multitool;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -227,7 +228,7 @@ public class MultitoolUtils implements Listener {
                 ph.setType(Material.AIR);
             }
             if (i == 7) {
-                ph.setType(Material.FEATHER); //if the item is a feather, give it lores
+                ph.setType(Material.FEATHER); //if the item is a feather, give it lore
                 phmet.setLore(addLore(phmet, lore, true));
             }
             ph.setItemMeta(phmet);
@@ -276,6 +277,48 @@ public class MultitoolUtils implements Listener {
                         main.wingdetect.giveWings(w_i.clone(), player);
                     }
                 }
+            }
+        }
+    }
+
+    public void updateFullToolLore(ItemMeta givemeta, Player player) {
+        givemeta.setLore(main.multitoolutils.addLore(givemeta, main.toollore, false));
+
+        if (main.mtLoreList) {
+            int index = 0;
+            for (ItemStack tool : main.multitoolutils.getToolInv(player)) {
+                if (tool != null && main.placeholders.get(index).getType() != tool.getType()) {
+                    if (tool.getItemMeta() != null && tool.getItemMeta().hasDisplayName()) {
+                        givemeta.setLore(main.multitoolutils.addLore(givemeta,
+                                main.colourKey + "- " + tool.getItemMeta().getDisplayName(), false));
+                    } else {
+                        givemeta.setLore(main.multitoolutils.addLore(givemeta,
+                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(tool.getType().toString().toLowerCase()),
+                                false));
+                    }
+                }
+                index++;
+            }
+        }
+    }
+
+    public void updateFullWingLore(ItemMeta newchestmeta, Player player) {
+        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta, main.winglore, false));
+
+        if (main.mtLoreList) {
+            int index = 0;
+            for (ItemStack wing : main.multitoolutils.getWingInv(player)) {
+                if (wing != null && main.wingholders.get(index).getType() != wing.getType()) {
+                    if (wing.getItemMeta() != null && wing.getItemMeta().hasDisplayName()) {
+                        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta,
+                                main.colourKey + "- " + wing.getItemMeta().getDisplayName(), false));
+                    } else {
+                        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta,
+                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(wing.getType().toString().toLowerCase()),
+                                false));
+                    }
+                }
+                index++;
             }
         }
     }

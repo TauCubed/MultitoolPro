@@ -4,21 +4,16 @@ import java.util.*;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityInteractEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class MultitoolToolDetect implements Listener {
@@ -154,7 +149,9 @@ private Multitool main;
 	public void giveStack(ItemStack givestack, Player player) {
 		if (givestack.getType() != Material.AIR) { //if the block being hit changed, update the held item
 			ItemMeta givemeta = givestack.getItemMeta();
-			givemeta.setLore(main.multitoolutils.addLore(givemeta, main.toollore, false));
+
+			main.multitoolutils.updateFullToolLore(givemeta, player);
+
 			givestack.setItemMeta(givemeta);
 			player.getInventory().setItemInMainHand(givestack);
 		}
@@ -169,7 +166,7 @@ private Multitool main;
 					ItemMeta stackmeta = handstack.getItemMeta();
 					List<String> lore = new ArrayList<>();
 					for (String line : stackmeta.getLore()) {
-						if (!line.equals(main.toollore)) {
+						if (!line.equals(main.toollore) && !line.contains(main.colourKey + "- ")) {
 							lore.add(line);
 						}
 					}

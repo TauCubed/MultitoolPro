@@ -30,6 +30,8 @@ public class Multitool extends JavaPlugin implements Listener {
 	public String mtwinv = ChatColor.BLUE + "Multiarmour";
 	public boolean mtLoreList = false;
 
+	public String colourKey = ChatColor.LIGHT_PURPLE.toString() + ChatColor.ITALIC + " " + ChatColor.WHITE.toString() + ChatColor.BOLD.toString();
+
 	public static boolean sql;
 
 	public static List<String> soulbound = new ArrayList<>();

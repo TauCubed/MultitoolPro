@@ -113,7 +113,7 @@ public class WingInventory implements Listener {
                                             if (curmat != Material.GRAY_STAINED_GLASS_PANE && curmat != Material.FEATHER) {
                                                 genstack = main.winginv.get(player.getUniqueId()).getItem(i).clone();
                                                 ItemMeta genmeta = genstack.getItemMeta();
-                                                genmeta.setLore(main.multitoolutils.addLore(genmeta, main.winglore, false));
+                                                main.multitoolutils.updateFullWingLore(genmeta, player);
                                                 genstack.setItemMeta(genmeta);
                                                 forloop = true; //this means a tool has been found, and will be given to the player if they have space
                                                 break;

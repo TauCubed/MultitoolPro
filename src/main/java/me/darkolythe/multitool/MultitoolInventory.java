@@ -1,11 +1,8 @@
 package me.darkolythe.multitool;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +12,6 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -115,7 +111,7 @@ public class MultitoolInventory implements Listener {
 												if (curmat != Material.GRAY_STAINED_GLASS_PANE && curmat != Material.FEATHER) {
 													genstack = main.toolinv.get(player.getUniqueId()).getItem(i).clone();
 													ItemMeta genmeta = genstack.getItemMeta();
-													genmeta.setLore(main.multitoolutils.addLore(genmeta, main.toollore, false));
+													main.multitoolutils.updateFullToolLore(genmeta, player);
 													genstack.setItemMeta(genmeta);
 													forloop = true; //this means a tool has been found, and will be given to the player if they have space
 													break;
