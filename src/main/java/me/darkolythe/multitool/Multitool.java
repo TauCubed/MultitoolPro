@@ -36,6 +36,7 @@ public class Multitool extends JavaPlugin implements Listener {
 
 	public static List<String> soulbound = new ArrayList<>();
 	public static List<String> whitelist = new ArrayList<>();
+	public static List<String> blacklistedLores = new ArrayList<>();
 	public static List<String> vanish = new ArrayList<>();
 	public static boolean dropondeath = false;
 	public static Multitool plugin;

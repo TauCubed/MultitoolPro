@@ -33,8 +33,10 @@ public class MultitoolUtils implements Listener {
         main.prefix = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("prefix"));
         Multitool.soulbound = main.getConfig().getStringList("keepondeath");
         Multitool.whitelist = main.getConfig().getStringList("whitelisted_worlds");
+        Multitool.blacklistedLores = main.getConfig().getStringList("lore-blacklist");
         Multitool.vanish = main.getConfig().getStringList("loseondeath");
         Multitool.sql = main.getConfig().getBoolean("enable_sql");
+        main.messages.put("msgcannotput", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgcannotput").replace("%prefix%", main.prefix)));
         main.messages.put("msgdrop", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgdrop").replace("%prefix%", main.prefix)));
         main.messages.put("msgremove", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgremove").replace("%prefix%", main.prefix)));
         main.messages.put("msgtoggleon", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgtoggleon").replace("%prefix%", main.prefix)));

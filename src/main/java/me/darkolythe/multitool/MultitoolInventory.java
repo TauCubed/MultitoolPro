@@ -3,6 +3,7 @@ package me.darkolythe.multitool;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,13 +58,15 @@ public class MultitoolInventory implements Listener {
 			if (player.getOpenInventory().getTopInventory().getType() == InventoryType.DISPENSER) {
 				if (view.getTitle().equals(main.mtoinv)) {
 					if (event.getClickedInventory().equals(player.getInventory()) && event.isShiftClick()) {
-						String type = event.getCurrentItem().clone().getType().toString();
-						for (String s : toolMap.keySet()) {
-							if (type.contains("_" + s) || s.equals(type)) {
-								if (inv.getItem(toolMap.get(s)).getType() == Material.GRAY_STAINED_GLASS_PANE) {
-									inv.setItem(toolMap.get(s), event.getCurrentItem().clone());
-									event.getCurrentItem().setAmount(0);
-									break;
+						if (!checkBlackList(event.getCurrentItem(), player)) {
+							String type = event.getCurrentItem().clone().getType().toString();
+							for (String s : toolMap.keySet()) {
+								if (type.contains("_" + s) || s.equals(type)) {
+									if (inv.getItem(toolMap.get(s)).getType() == Material.GRAY_STAINED_GLASS_PANE) {
+										inv.setItem(toolMap.get(s), event.getCurrentItem().clone());
+										event.getCurrentItem().setAmount(0);
+										break;
+									}
 								}
 							}
 						}
@@ -74,14 +77,16 @@ public class MultitoolInventory implements Listener {
 							if (event.getCurrentItem() != null) {
 								ItemStack clickstack = event.getCurrentItem().clone();
 								if (clickstack.getType() == Material.GRAY_STAINED_GLASS_PANE) { //if the clicked item is a glass pane
-									String type = cursorstack.toString();
-									for (String s : toolMap.keySet()) {
-										if (type.contains("_" + s) || s.equals(type)
-												&& player.hasPermission("multitool.tool." + s.toLowerCase())
-												&& inv.getItem(toolMap.get(s)).getType().equals(Material.GRAY_STAINED_GLASS_PANE)) {
-											inv.setItem(toolMap.get(s), player.getItemOnCursor());
-											player.setItemOnCursor(null);
-											break;
+									if (!checkBlackList(player.getItemOnCursor(), player)) {
+										String type = cursorstack.toString();
+										for (String s : toolMap.keySet()) {
+											if (type.contains("_" + s) || s.equals(type)
+													&& player.hasPermission("multitool.tool." + s.toLowerCase())
+													&& inv.getItem(toolMap.get(s)).getType().equals(Material.GRAY_STAINED_GLASS_PANE)) {
+												inv.setItem(toolMap.get(s), player.getItemOnCursor());
+												player.setItemOnCursor(null);
+												break;
+											}
 										}
 									}
 									event.setCancelled(true);
@@ -201,4 +206,19 @@ public class MultitoolInventory implements Listener {
 			}
 		}
 	}
+
+	private boolean checkBlackList(ItemStack item, Player player) {
+		if (item != null && item.getItemMeta() != null && item.getItemMeta().hasLore()) {
+			for (String lore : main.blacklistedLores) {
+				for (String cursorLore : item.getItemMeta().getLore()) {
+					if (cursorLore.contains(lore)) {
+						player.sendMessage(main.messages.get("msgcannotput"));
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 }

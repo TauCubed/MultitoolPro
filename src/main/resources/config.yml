@@ -13,6 +13,12 @@ keepondeath: ["Soulbound"]
 # leave empty to allow all worlds. type world names to create a whitelist. ex: whitelisted_worlds: ["creative", "skyblock"]
 whitelisted_worlds: []
 
+# lore blacklist. If a player tries to put an item in the multitool and the tool has any of
+# these lores, it wont be able to be added.
+# These lores don't need to match the line exactly.
+# ex: If the tool has "&bhello" as a lore, you can put "he" to blacklist it.
+lore-blacklist: ["blacklisted-lore", "&a&lanother-lore"]
+
 
 # mySQL Options
 #####################################################################################################
@@ -44,6 +50,7 @@ multiarmour: "&9&lMultiarmour"
 prefix: "&f&l[&9&lMultitool&f&l] "
 
 
+msgcannotput: "%prefix%&cYou cannot put that item in your multitool!"
 msgdrop: "%prefix%&cYou dropped your Multitool!"
 msgremove: "%prefix%&cYou removed your Multitool!"
 msgtoggleon: "%prefix%&aMultitool On!"
