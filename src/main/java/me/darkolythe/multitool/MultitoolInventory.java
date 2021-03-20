@@ -80,7 +80,7 @@ public class MultitoolInventory implements Listener {
 									if (!checkBlackList(player.getItemOnCursor(), player)) {
 										String type = cursorstack.toString();
 										for (String s : toolMap.keySet()) {
-											if (type.contains("_" + s) || s.equals(type)
+											if ((type.contains("_" + s) || s.equals(type))
 													&& player.hasPermission("multitool.tool." + s.toLowerCase())
 													&& inv.getItem(toolMap.get(s)).getType().equals(Material.GRAY_STAINED_GLASS_PANE)) {
 												inv.setItem(toolMap.get(s), player.getItemOnCursor());
