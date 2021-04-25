@@ -83,7 +83,7 @@ public class MultitoolUtils implements Listener {
             main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
             main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
         } else {
-            SQLManager.setPlayerData(event.getPlayer());
+            SQLManager.setPlayerData(event.getPlayer().getUniqueId());
         }
     }
 
@@ -206,6 +206,35 @@ public class MultitoolUtils implements Listener {
         }
         return false;
     }
+
+
+    public void transferToDatabase(Player player) {
+        if (Multitool.sql) {
+            File file = new File(main.getDataFolder(), "PlayerData.yml");
+
+            if (file.exists()) {
+                FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+                if (config.contains("toolinv")) {
+                    for (String uuid : config.getConfigurationSection("toolinv").getKeys(false)) {
+                        main.configmanager.playerLoad(UUID.fromString(uuid), "toolinv.");
+                        main.configmanager.playerLoad(UUID.fromString(uuid), "winginv.");
+                        SQLManager.setPlayerData(UUID.fromString(uuid));
+                        main.toolinv.remove(UUID.fromString(uuid));
+                        main.winginv.remove(UUID.fromString(uuid));
+                    }
+                    player.sendMessage(main.prefix + ChatColor.GREEN + "PlayerData.yml has been migrated.");
+                } else {
+                    player.sendMessage(main.prefix + ChatColor.RED + "No players found for migration.");
+                }
+            } else {
+                player.sendMessage(main.prefix + ChatColor.RED + "No PlayerData.yml file found.");
+            }
+        } else {
+            player.sendMessage(main.prefix + ChatColor.RED + "SQL is not enabled in the config.");
+        }
+    }
+
 
     public void addPlaceholders() {
         String[] names = new String[]{main.messages.get("swordhere"), main.messages.get("pickaxehere"), main.messages.get("axehere"),

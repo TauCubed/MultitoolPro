@@ -113,7 +113,7 @@ public class SQLManager {
             e.printStackTrace();
             if (!inloop) {
                 try {
-                    setPlayerData(player);
+                    setPlayerData(player.getUniqueId());
                     getPlayerData(player, true);
                 } catch (Exception ex) {
                     player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact and administrator.");
@@ -124,10 +124,10 @@ public class SQLManager {
         }
     }
 
-    public static void setPlayerData(Player player) {
+    public static void setPlayerData(UUID uuid) {
         try {
-            Inventory m_inv = main.toolinv.get(player.getUniqueId());
-            Inventory w_inv = main.winginv.get(player.getUniqueId());
+            Inventory m_inv = main.toolinv.get(uuid);
+            Inventory w_inv = main.winginv.get(uuid);
 
             String sword = serializeItemStack(m_inv.getItem(0));
             String pickaxe = serializeItemStack(m_inv.getItem(1));
@@ -139,7 +139,7 @@ public class SQLManager {
             String elytra = serializeItemStack(w_inv.getItem(2));
 
             statement.executeUpdate("INSERT INTO MultitoolPlusProData (UUID, sword, pickaxe, axe, shovel, hoe, shears, chestplate, elytra) " +
-                    "VALUES ('" + player.getUniqueId() + "', '" + sword + "', '" + pickaxe + "', '" + axe + "', '" + shovel +
+                    "VALUES ('" + uuid.toString() + "', '" + sword + "', '" + pickaxe + "', '" + axe + "', '" + shovel +
                     "', '" + hoe + "', '" + shears + "', '" + chestplate + "', '" + elytra + "') ON DUPLICATE KEY UPDATE " +
                     "sword = VALUES(sword), " +
                     "pickaxe = VALUES(pickaxe), " +

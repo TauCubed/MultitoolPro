@@ -36,17 +36,6 @@ public class MultitoolCommand implements CommandExecutor {
 							} else {
 								sender.sendMessage(main.messages.get("msgtoggleoff"));
 							}
-						} else if (args[0].equalsIgnoreCase("Migrate")) {
-							if (player.hasPermission("multitool.migrate")) {
-								player.sendMessage(main.prefix + ChatColor.WHITE + "The server may lag depending on the amount of saved multitools...");
-								if (main.multitoolutils.migrate()) {
-									player.sendMessage(main.prefix + ChatColor.WHITE + "Migration done. Multitools were successfully transferred");
-								} else {
-									player.sendMessage(main.prefix + ChatColor.WHITE + "No multitools from the regular version of the plugin were found. Migration done.");
-								}
-							} else {
-								sender.sendMessage(main.messages.get("msgnopermission"));
-							}
 						} else if (args[0].equalsIgnoreCase("Reload")) {
 							if (player.hasPermission("multitool.reload")) {
 								main.multitoolutils.getConfigs();
@@ -78,6 +67,23 @@ public class MultitoolCommand implements CommandExecutor {
 									}
 								}
 								sender.sendMessage(main.messages.get("msgnotonline"));
+							} else {
+								sender.sendMessage(main.messages.get("msgnopermission"));
+							}
+						} else if (args[0].equalsIgnoreCase("Migrate")) {
+							if (player.hasPermission("multitool.migrate")) {
+								if (args[1].equalsIgnoreCase("old")) {
+									player.sendMessage(main.prefix + ChatColor.WHITE + "The server may lag depending on the amount of saved multitools...");
+									if (main.multitoolutils.migrate()) {
+										player.sendMessage(main.prefix + ChatColor.WHITE + "Migration done. Multitools were successfully transferred");
+									} else {
+										player.sendMessage(main.prefix + ChatColor.WHITE + "No multitools from the regular version of the plugin were found. Migration done.");
+									}
+								} else if (args[1].equalsIgnoreCase("database")) {
+									main.multitoolutils.transferToDatabase(player);
+								} else {
+									sender.sendMessage(main.messages.get("msginvalid") + " /mt migrate [old, database]");
+								}
 							} else {
 								sender.sendMessage(main.messages.get("msgnopermission"));
 							}
