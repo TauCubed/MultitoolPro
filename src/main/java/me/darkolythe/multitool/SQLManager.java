@@ -59,7 +59,6 @@ public class SQLManager {
             ResultSet result = statement.executeQuery("SHOW TABLES;");
 
             while (result.next()) {
-                System.out.println(result.getString(1));
                 if ("multitoolplusprodata".equals(result.getString(1))) {
                     return;
                 }
@@ -111,7 +110,6 @@ public class SQLManager {
             winv.setItem(1, deserializeItemStack(result.getString("chestplate")));
             winv.setItem(2, deserializeItemStack(result.getString("elytra")));
         } catch (Exception e) {
-            e.printStackTrace();
             if (!inloop) {
                 try {
                     setPlayerData(player.getUniqueId());
