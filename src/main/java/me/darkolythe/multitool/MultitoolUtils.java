@@ -223,6 +223,9 @@ public class MultitoolUtils implements Listener {
                         main.toolinv.remove(UUID.fromString(uuid));
                         main.winginv.remove(UUID.fromString(uuid));
                     }
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        SQLManager.getPlayerData(p, false);
+                    }
                     player.sendMessage(main.prefix + ChatColor.GREEN + "PlayerData.yml has been migrated.");
                 } else {
                     player.sendMessage(main.prefix + ChatColor.RED + "No players found for migration.");

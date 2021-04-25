@@ -49,6 +49,12 @@ public class MultitoolCommand implements CommandExecutor {
 							} else {
 								sender.sendMessage(main.messages.get("msgnopermission"));
 							}
+						} else if (args[0].equalsIgnoreCase("migrate")) {
+							if (player.hasPermission("multitool.migrate")) {
+								sender.sendMessage(main.messages.get("msginvalid") + " /mt migrate [old, database]");
+							} else {
+								sender.sendMessage(main.messages.get("msgnopermission"));
+							}
 						} else {
 							if (!player.hasPermission("multitool.migrate")) {
 								sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle]");

@@ -51,7 +51,7 @@ public class SQLManager {
             return;
         }
         Class.forName("com.mysql.jdbc.Driver");
-        connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
+        connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", username, password);
     }
 
     public static void createTableIfNotExists() {
@@ -59,20 +59,21 @@ public class SQLManager {
             ResultSet result = statement.executeQuery("SHOW TABLES;");
 
             while (result.next()) {
-                if ("MultitoolPlusProData".equals(result.getString(1))) {
+                System.out.println(result.getString(1));
+                if ("multitoolplusprodata".equals(result.getString(1))) {
                     return;
                 }
             }
-            statement.executeUpdate("CREATE TABLE MultitoolPlusProData (" +
+            statement.executeUpdate("CREATE TABLE multitoolplusprodata (" +
                     "UUID VARCHAR(48), " +
-                    "sword VARCHAR(2048), " +
-                    "pickaxe VARCHAR(2048), " +
-                    "axe VARCHAR(2048), " +
-                    "shovel VARCHAR(2048), " +
-                    "hoe VARCHAR(2048), " +
-                    "shears VARCHAR(2048), " +
-                    "chestplate VARCHAR(2048), " +
-                    "elytra VARCHAR(2048), " +
+                    "sword VARCHAR(4096), " +
+                    "pickaxe VARCHAR(4096), " +
+                    "axe VARCHAR(4096), " +
+                    "shovel VARCHAR(4096), " +
+                    "hoe VARCHAR(4096), " +
+                    "shears VARCHAR(4096), " +
+                    "chestplate VARCHAR(4096), " +
+                    "elytra VARCHAR(4096), " +
                     "PRIMARY KEY (UUID));");
         } catch (Exception e) {
             System.out.println("Could not create mySQL table.");
