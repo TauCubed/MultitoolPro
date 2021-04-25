@@ -60,7 +60,7 @@ public class WingDetect implements Listener {
         ItemMeta meta = item.getItemMeta();
         List<String> lore = new ArrayList<>();
         for (String line : meta.getLore()) {
-            if (!line.equals(main.winglore)) {
+            if (!line.equals(main.winglore) && !line.contains(main.colourKey + "- ")) {
                 lore.add(line);
             }
         }
@@ -82,7 +82,7 @@ public class WingDetect implements Listener {
 
     public void giveWings(ItemStack item, Player player) {
         ItemMeta newchestmeta = item.getItemMeta();
-        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta, main.winglore, false));
+        main.multitoolutils.updateFullWingLore(newchestmeta, player);
         item.setItemMeta(newchestmeta);
         player.getInventory().setChestplate(item);
     }

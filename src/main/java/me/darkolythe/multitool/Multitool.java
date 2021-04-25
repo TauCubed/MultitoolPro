@@ -28,11 +28,15 @@ public class Multitool extends JavaPlugin implements Listener {
 	public Map<String, String> messages = new HashMap<>();
 	public String mtoinv = ChatColor.BLUE + "Multitools";
 	public String mtwinv = ChatColor.BLUE + "Multiarmour";
+	public boolean mtLoreList = false;
+
+	public String colourKey = ChatColor.LIGHT_PURPLE.toString() + ChatColor.ITALIC + " " + ChatColor.WHITE.toString() + ChatColor.BOLD.toString();
 
 	public static boolean sql;
 
 	public static List<String> soulbound = new ArrayList<>();
 	public static List<String> whitelist = new ArrayList<>();
+	public static List<String> blacklistedLores = new ArrayList<>();
 	public static List<String> vanish = new ArrayList<>();
 	public static boolean dropondeath = false;
 	public static Multitool plugin;

@@ -1,5 +1,6 @@
 package me.darkolythe.multitool;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -32,8 +33,10 @@ public class MultitoolUtils implements Listener {
         main.prefix = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("prefix"));
         Multitool.soulbound = main.getConfig().getStringList("keepondeath");
         Multitool.whitelist = main.getConfig().getStringList("whitelisted_worlds");
+        Multitool.blacklistedLores = main.getConfig().getStringList("lore-blacklist");
         Multitool.vanish = main.getConfig().getStringList("loseondeath");
         Multitool.sql = main.getConfig().getBoolean("enable_sql");
+        main.messages.put("msgcannotput", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgcannotput").replace("%prefix%", main.prefix)));
         main.messages.put("msgdrop", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgdrop").replace("%prefix%", main.prefix)));
         main.messages.put("msgremove", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgremove").replace("%prefix%", main.prefix)));
         main.messages.put("msgtoggleon", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgtoggleon").replace("%prefix%", main.prefix)));
@@ -64,6 +67,9 @@ public class MultitoolUtils implements Listener {
 
         main.mtoinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtoinv"));
         main.mtwinv = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("mtwinv"));
+        main.toollore = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("multitool"));
+        main.winglore = ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("multiarmour"));
+        main.mtLoreList = main.getConfig().getBoolean("tool-list-lore");
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////Player leave and join
@@ -256,7 +262,7 @@ public class MultitoolUtils implements Listener {
                 ph.setType(Material.AIR);
             }
             if (i == 7) {
-                ph.setType(Material.FEATHER); //if the item is a feather, give it lores
+                ph.setType(Material.FEATHER); //if the item is a feather, give it lore
                 phmet.setLore(addLore(phmet, lore, true));
             }
             ph.setItemMeta(phmet);
@@ -305,6 +311,48 @@ public class MultitoolUtils implements Listener {
                         main.wingdetect.giveWings(w_i.clone(), player);
                     }
                 }
+            }
+        }
+    }
+
+    public void updateFullToolLore(ItemMeta givemeta, Player player) {
+        givemeta.setLore(main.multitoolutils.addLore(givemeta, main.toollore, false));
+
+        if (main.mtLoreList) {
+            int index = 0;
+            for (ItemStack tool : main.multitoolutils.getToolInv(player)) {
+                if (tool != null && main.placeholders.get(index).getType() != tool.getType()) {
+                    if (tool.getItemMeta() != null && tool.getItemMeta().hasDisplayName()) {
+                        givemeta.setLore(main.multitoolutils.addLore(givemeta,
+                                main.colourKey + "- " + tool.getItemMeta().getDisplayName(), false));
+                    } else {
+                        givemeta.setLore(main.multitoolutils.addLore(givemeta,
+                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(tool.getType().toString().toLowerCase().replaceAll("_", " ")),
+                                false));
+                    }
+                }
+                index++;
+            }
+        }
+    }
+
+    public void updateFullWingLore(ItemMeta newchestmeta, Player player) {
+        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta, main.winglore, false));
+
+        if (main.mtLoreList) {
+            int index = 0;
+            for (ItemStack wing : main.multitoolutils.getWingInv(player)) {
+                if (wing != null && main.wingholders.get(index).getType() != wing.getType()) {
+                    if (wing.getItemMeta() != null && wing.getItemMeta().hasDisplayName()) {
+                        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta,
+                                main.colourKey + "- " + wing.getItemMeta().getDisplayName(), false));
+                    } else {
+                        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta,
+                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(wing.getType().toString().toLowerCase().replaceAll("_", " ")),
+                                false));
+                    }
+                }
+                index++;
             }
         }
     }
