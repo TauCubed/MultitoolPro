@@ -195,7 +195,7 @@ public class MultitoolListener implements Listener {
 			List<ItemStack> drops = event.getDrops();
 			for (ItemStack i : drops) {
 				if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
-					i.setType(Material.AIR);
+					event.getDrops().remove(i);
 					player.sendMessage(main.messages.get("msgdeath"));
 				}
 			}
