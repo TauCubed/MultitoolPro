@@ -85,12 +85,18 @@ public class MultitoolUtils implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (!Multitool.sql) {
-            main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
-            main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
-        } else {
-            SQLManager.setPlayerData(event.getPlayer().getUniqueId());
-        }
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(main, new Runnable() {
+            @Override
+            public void run() {
+                if (!Multitool.sql) {
+                    main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
+                    main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
+                } else {
+                    SQLManager.setPlayerData(event.getPlayer().getUniqueId());
+                }
+            }
+        });
+        main.toolinv.remove(event.getPlayer().getUniqueId());
     }
 
 
