@@ -97,6 +97,7 @@ public class MultitoolUtils implements Listener {
             }
         });
         main.toolinv.remove(event.getPlayer().getUniqueId());
+        main.winginv.remove(event.getPlayer().getUniqueId());
     }
 
 
