@@ -194,9 +194,10 @@ public class MultitoolListener implements Listener {
 			}
 			List<ItemStack> drops = event.getDrops();
 			for (ItemStack i : drops) {
-				if (main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
+				if (i != null && main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
 					event.getDrops().remove(i);
 					player.sendMessage(main.messages.get("msgdeath"));
+					return;
 				}
 			}
 		}

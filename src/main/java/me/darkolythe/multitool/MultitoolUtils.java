@@ -1,5 +1,6 @@
 package me.darkolythe.multitool;
 
+import NBTManager.NBT;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -138,6 +139,12 @@ public class MultitoolUtils implements Listener {
     public boolean isTool(ItemStack item, String lore) {
         if (item != null) {
             if (item.hasItemMeta()) {
+                NBT nbt = new NBT(item);
+                if (nbt.hasNBTTags()) {
+                    if (nbt.getBoolean("is_multitool")) {
+                        return true;
+                    }
+                }
                 ItemMeta meta = item.getItemMeta();
                 if (meta != null && meta.hasLore()) {
                     for (String line : meta.getLore()) {
@@ -150,6 +157,16 @@ public class MultitoolUtils implements Listener {
         }
         return false;
     }
+
+
+    public void addNBTLore(ItemStack item, Player player) {
+        NBT nbt = new NBT(item);
+        nbt.setBoolean("is_multitool", true);
+        ItemMeta meta = item.getItemMeta();
+        updateFullToolLore(meta, player);
+        item.setItemMeta(meta);
+    }
+
 
     public List<String> addLore(ItemMeta meta, String line, boolean top) {
         List<String> newlore = new ArrayList<>();
@@ -328,16 +345,7 @@ public class MultitoolUtils implements Listener {
         if (main.mtLoreList) {
             int index = 0;
             for (ItemStack tool : main.multitoolutils.getToolInv(player)) {
-                if (tool != null && main.placeholders.get(index).getType() != tool.getType()) {
-                    if (tool.getItemMeta() != null && tool.getItemMeta().hasDisplayName()) {
-                        givemeta.setLore(main.multitoolutils.addLore(givemeta,
-                                main.colourKey + "- " + tool.getItemMeta().getDisplayName(), false));
-                    } else {
-                        givemeta.setLore(main.multitoolutils.addLore(givemeta,
-                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(tool.getType().toString().toLowerCase().replaceAll("_", " ")),
-                                false));
-                    }
-                }
+                updateFullLore(givemeta, index, tool, main.placeholders);
                 index++;
             }
         }
@@ -349,17 +357,22 @@ public class MultitoolUtils implements Listener {
         if (main.mtLoreList) {
             int index = 0;
             for (ItemStack wing : main.multitoolutils.getWingInv(player)) {
-                if (wing != null && main.wingholders.get(index).getType() != wing.getType()) {
-                    if (wing.getItemMeta() != null && wing.getItemMeta().hasDisplayName()) {
-                        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta,
-                                main.colourKey + "- " + wing.getItemMeta().getDisplayName(), false));
-                    } else {
-                        newchestmeta.setLore(main.multitoolutils.addLore(newchestmeta,
-                                main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(wing.getType().toString().toLowerCase().replaceAll("_", " ")),
-                                false));
-                    }
-                }
+                updateFullLore(newchestmeta, index, wing, main.wingholders);
                 index++;
+            }
+        }
+    }
+
+    private void updateFullLore(ItemMeta itemmeta, int index, ItemStack item, List<ItemStack> itemholder) {
+        if (item != null && itemholder.get(index).getType() != item.getType()) {
+            if (item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {
+                itemmeta.setLore(main.multitoolutils.addLore(itemmeta,
+                        main.colourKey + "- " + item.getItemMeta().getDisplayName(), false));
+            } else {
+                itemmeta.setLore(main.multitoolutils.addLore(itemmeta,
+                        main.colourKey + "- " + ChatColor.WHITE + WordUtils.capitalize(item.getType()
+                                .toString().toLowerCase().replaceAll("_", " ")),
+                        false));
             }
         }
     }

@@ -148,16 +148,14 @@ private Multitool main;
 	
 	public void giveStack(ItemStack givestack, Player player) {
 		if (givestack.getType() != Material.AIR) { //if the block being hit changed, update the held item
-			ItemMeta givemeta = givestack.getItemMeta();
+			main.multitoolutils.addNBTLore(givestack, player);
 
-			main.multitoolutils.updateFullToolLore(givemeta, player);
-
-			givestack.setItemMeta(givemeta);
 			player.getInventory().setItemInMainHand(givestack);
 		}
 	}
 
 	public void setMTItem(Player player, boolean changeitem) {
+
 		for (int i = 0; i < 9; i++) { //this loops through the mt inv, checks which index the current item being used is in, and then updates it
 			if (main.multitoolutils.getToolInv(player).getItem(i) != null) {
 				if (main.multitoolutils.getToolInv(player).getItem(i).getType() == player.getInventory().getItemInMainHand().getType()) {

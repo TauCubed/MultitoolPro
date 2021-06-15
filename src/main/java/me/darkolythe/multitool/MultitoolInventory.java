@@ -115,9 +115,7 @@ public class MultitoolInventory implements Listener {
 												forloop = false;
 												if (curmat != Material.GRAY_STAINED_GLASS_PANE && curmat != Material.FEATHER) {
 													genstack = main.toolinv.get(player.getUniqueId()).getItem(i).clone();
-													ItemMeta genmeta = genstack.getItemMeta();
-													main.multitoolutils.updateFullToolLore(genmeta, player);
-													genstack.setItemMeta(genmeta);
+													main.multitoolutils.addNBTLore(genstack, player);
 													forloop = true; //this means a tool has been found, and will be given to the player if they have space
 													break;
 												}
