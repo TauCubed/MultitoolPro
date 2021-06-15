@@ -90,7 +90,7 @@ private Multitool main;
 				//Get item in player's hand
 				ItemStack handitem = player.getInventory().getItemInMainHand();
 
-				if (main.multitoolutils.isTool(handitem, main.toollore)) {
+				if (main.multitoolutils.isMultitool(handitem)) {
 					ItemStack givestack = new ItemStack(Material.AIR, 0);
 					setMTItem(player, true);
 					if (isEntity && !isShifting) { //if the block is air, make it a sword, else, continue
@@ -128,7 +128,7 @@ private Multitool main;
 			} else {
 				//Get item in player's hand
 				ItemStack handitem = player.getInventory().getItemInMainHand();
-				if (main.multitoolutils.isTool(handitem, main.toollore)) {
+				if (main.multitoolutils.isMultitool(handitem)) {
 					setMTItem(player, false);
 				}
 			}
@@ -155,7 +155,6 @@ private Multitool main;
 	}
 
 	public void setMTItem(Player player, boolean changeitem) {
-
 		for (int i = 0; i < 9; i++) { //this loops through the mt inv, checks which index the current item being used is in, and then updates it
 			if (main.multitoolutils.getToolInv(player).getItem(i) != null) {
 				if (main.multitoolutils.getToolInv(player).getItem(i).getType() == player.getInventory().getItemInMainHand().getType()) {
@@ -170,7 +169,11 @@ private Multitool main;
 					}
 					stackmeta.setLore(lore);
 					handstack.setItemMeta(stackmeta);
+
+					main.multitoolutils.addMultitoolNBT(handstack);
+
 					mtinv.setItem(i, handstack); //replace old item with used item
+
 					if (changeitem) {
 						main.toolinv.put(player.getUniqueId(), mtinv); //replace old inv with new inv
 					}

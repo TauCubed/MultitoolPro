@@ -30,7 +30,7 @@ public class WingDetect implements Listener {
         if (player.hasPermission("multitool.multiarmour")) {
             if (player.getInventory().getChestplate() != null) {
                 ItemStack chest = player.getInventory().getChestplate().clone();
-                if (main.multitoolutils.isTool(chest, main.winglore)) {
+                if (main.multitoolutils.isMultiArmour(chest)) {
                     Inventory inv = main.multitoolutils.getWingInv(player);
                     Material block = event.getPlayer().getLocation().getBlock().getType();
                     if (!player.isOnGround() && (block != Material.WATER) && (block != Material.LADDER) && (block != Material.VINE) &&
@@ -66,6 +66,7 @@ public class WingDetect implements Listener {
         }
         meta.setLore(lore);
         item.setItemMeta(meta);
+        main.multitoolutils.addMultiarmourNBT(item);
         inv.setItem(index, item);
         main.winginv.put(player.getUniqueId(), inv);
 

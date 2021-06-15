@@ -39,7 +39,7 @@ public class MultitoolListener implements Listener {
 
 		Item dropitem = event.getItemDrop();
 		ItemStack dropstack = dropitem.getItemStack();
-		if (main.multitoolutils.isTool(dropstack, main.toollore) || main.multitoolutils.isTool(dropstack, main.winglore)) {
+		if (main.multitoolutils.isMultitool(dropstack) || main.multitoolutils.isMultiArmour(dropstack)) {
 			dropitem.remove();
 			player.sendMessage(main.messages.get("msgdrop"));
 		}
@@ -77,14 +77,14 @@ public class MultitoolListener implements Listener {
 			return;
 		}
 
-		if (main.multitoolutils.isTool(brokenitem, main.toollore)) {
+		if (main.multitoolutils.isMultitool(brokenitem)) {
 			Inventory mtinv = main.multitoolutils.getToolInv(event.getPlayer()); //create inventory of mtinv
 			for (int i = 0; i < 4; i++) {
 				if (mtinv.getItem(i).getType() == brokenitem.getType()) {
 					mtinv.setItem(i, main.placeholders.get(i));
 				}
 			}
-		} else if (main.multitoolutils.isTool(brokenitem, main.winglore)) {
+		} else if (main.multitoolutils.isMultiArmour(brokenitem)) {
 			Inventory winginv = main.multitoolutils.getWingInv(event.getPlayer()); //create inventory of mtinv
 			for (int i = 1; i < 3; i++) {
 				if (winginv.getItem(i).getType() == brokenitem.getType()) {
@@ -105,7 +105,7 @@ public class MultitoolListener implements Listener {
 		if ((event.getClickedInventory() != player.getInventory()) || (event.isShiftClick() && player.getOpenInventory().getType() != InventoryType.CRAFTING)) {
 			if ((player.getItemOnCursor().getType() != Material.AIR)) {
 				ItemStack cursorstack = player.getItemOnCursor();
-				if (main.multitoolutils.isTool(cursorstack, main.toollore) || main.multitoolutils.isTool(cursorstack, main.winglore)) {
+				if (main.multitoolutils.isMultitool(cursorstack) || main.multitoolutils.isMultiArmour(cursorstack)) {
 					player.setItemOnCursor(null);
 					event.setCancelled(true);
 					player.sendMessage(main.messages.get("msgremove"));
@@ -113,7 +113,7 @@ public class MultitoolListener implements Listener {
 				}
 			} else if (event.isShiftClick() && event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
 				ItemStack clickstack = event.getCurrentItem();
-				if (main.multitoolutils.isTool(clickstack, main.toollore) || main.multitoolutils.isTool(clickstack, main.winglore)) {
+				if (main.multitoolutils.isMultitool(clickstack) || main.multitoolutils.isMultiArmour(clickstack)) {
 					event.setCurrentItem(null);
 					event.setCancelled(true);
 					player.sendMessage(main.messages.get("msgremove"));
@@ -122,14 +122,14 @@ public class MultitoolListener implements Listener {
 			} else if (event.getClick() == ClickType.NUMBER_KEY) {
 				ItemStack item = player.getInventory().getItem(event.getHotbarButton());
 				if (item != null && item.getType() != Material.AIR) {
-					if (main.multitoolutils.isTool(item, main.toollore) || main.multitoolutils.isTool(item, main.winglore)) {
+					if (main.multitoolutils.isMultitool(item) || main.multitoolutils.isMultiArmour(item)) {
 						player.getInventory().setItem(event.getHotbarButton(), null);
 						event.setCancelled(true);
 						player.sendMessage(main.messages.get("msgremove"));
 						return;
 					}
 				}
-			} else if (main.multitoolutils.isTool(event.getCurrentItem(), main.toollore)) {
+			} else if (main.multitoolutils.isMultitool(event.getCurrentItem())) {
 				event.setCurrentItem(null);
 				event.setCancelled(true);
 				player.sendMessage(main.prefix + ChatColor.RED + "Your Multitool was outside your inventory. It has been removed!");
@@ -147,7 +147,7 @@ public class MultitoolListener implements Listener {
 		if (event.getOldCursor().getType() != Material.AIR) {
 			if (event.getInventory().getType() != InventoryType.CRAFTING) {
 				ItemStack clickstack = event.getOldCursor();
-				if (main.multitoolutils.isTool(clickstack, main.toollore) || main.multitoolutils.isTool(clickstack, main.winglore)) {
+				if (main.multitoolutils.isMultitool(clickstack) || main.multitoolutils.isMultiArmour(clickstack)) {
 					event.setCancelled(true);
 				}
 			}
@@ -163,7 +163,7 @@ public class MultitoolListener implements Listener {
 		}
 
 		if (player.isSneaking()) {
-			if (main.multitoolutils.isTool(event.getOffHandItem(), main.toollore)) {
+			if (main.multitoolutils.isMultitool(event.getOffHandItem())) {
 				main.multitoolutils.setToggle(player.getUniqueId(), !main.multitoolutils.getToggle(player.getUniqueId()));
 				if (main.multitoolutils.getToggle(player.getUniqueId())) {
 					player.sendMessage(main.messages.get("msgtoggleon"));
@@ -194,7 +194,7 @@ public class MultitoolListener implements Listener {
 			}
 			List<ItemStack> drops = event.getDrops();
 			for (ItemStack i : drops) {
-				if (i != null && main.multitoolutils.isTool(i, main.toollore) || main.multitoolutils.isTool(i, main.winglore)) {
+				if (i != null && main.multitoolutils.isMultitool(i) || main.multitoolutils.isMultiArmour(i)) {
 					event.getDrops().remove(i);
 					player.sendMessage(main.messages.get("msgdeath"));
 					return;
@@ -252,7 +252,7 @@ public class MultitoolListener implements Listener {
 
 		List<ItemStack> items = new ArrayList<>();
 
-		if (main.multitoolutils.isTool(mendItem, main.toollore)) {
+		if (main.multitoolutils.isMultitool(mendItem)) {
 			for (ItemStack item : main.toolinv.get(player.getUniqueId())) {
 				if (item == null) {
 					continue;
@@ -265,7 +265,7 @@ public class MultitoolListener implements Listener {
 				}
 				items.add(item);
 			}
-		} else if (main.multitoolutils.isTool(mendItem, main.winglore)) {
+		} else if (main.multitoolutils.isMultiArmour(mendItem)) {
 			for (ItemStack item : main.winginv.get(player.getUniqueId())) {
 				if (item == null) {
 					continue;
@@ -303,8 +303,8 @@ public class MultitoolListener implements Listener {
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		ItemStack handitem = player.getInventory().getItemInMainHand();
-		boolean isTool = main.multitoolutils.isTool(handitem, main.toollore);
-		boolean isWing = main.multitoolutils.isTool(handitem, main.winglore);
+		boolean isTool = main.multitoolutils.isMultitool(handitem);
+		boolean isWing = main.multitoolutils.isMultiArmour(handitem);
 
 		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
 			return;
@@ -323,8 +323,8 @@ public class MultitoolListener implements Listener {
 	public void onArmourStandEdit(PlayerArmorStandManipulateEvent event) {
 		Player player = event.getPlayer();
 		ItemStack handItem = player.getInventory().getItemInMainHand();
-		boolean isTool = main.multitoolutils.isTool(handItem, main.toollore);
-		boolean isWing = main.multitoolutils.isTool(handItem, main.winglore);
+		boolean isTool = main.multitoolutils.isMultitool(handItem);
+		boolean isWing = main.multitoolutils.isMultiArmour(handItem);
 
 		if (Multitool.whitelist.size() > 0 && !Multitool.whitelist.contains(player.getWorld().getName())) {
 			return;

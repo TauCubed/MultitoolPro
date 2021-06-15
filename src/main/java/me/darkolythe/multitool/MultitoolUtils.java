@@ -136,19 +136,55 @@ public class MultitoolUtils implements Listener {
         return main.winginv.get(player.getUniqueId());
     }
 
-    public boolean isTool(ItemStack item, String lore) {
+    public boolean hasNBT(ItemStack item, String toolType) {
+        NBT nbt = new NBT(item);
+        if (nbt.hasNBTTags()) {
+            if (nbt.getBoolean("is_" + toolType)) {
+                return true;
+            }
+        }
+        return true;
+    }
+
+    public void addMultitoolNBT(ItemStack item) {
+        NBT nbt = new NBT(item);
+        nbt.setBoolean("is_multitool", true);
+    }
+
+    public void addMultiarmourNBT(ItemStack item) {
+        NBT nbt = new NBT(item);
+        nbt.setBoolean("is_multiarmour", true);
+    }
+
+    public boolean isMultitool(ItemStack item) {
         if (item != null) {
             if (item.hasItemMeta()) {
-                NBT nbt = new NBT(item);
-                if (nbt.hasNBTTags()) {
-                    if (nbt.getBoolean("is_multitool")) {
-                        return true;
-                    }
+                if (hasNBT(item, "multitool")) {
+                    return true;
                 }
                 ItemMeta meta = item.getItemMeta();
                 if (meta != null && meta.hasLore()) {
                     for (String line : meta.getLore()) {
-                        if (line.equals(lore)) {
+                        if (line.equals(main.toollore)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isMultiArmour(ItemStack item) {
+        if (item != null) {
+            if (item.hasItemMeta()) {
+                if (hasNBT(item, "multiarmour")) {
+                    return true;
+                }
+                ItemMeta meta = item.getItemMeta();
+                if (meta != null && meta.hasLore()) {
+                    for (String line : meta.getLore()) {
+                        if (line.equals(main.winglore)) {
                             return true;
                         }
                     }
@@ -160,8 +196,7 @@ public class MultitoolUtils implements Listener {
 
 
     public void addNBTLore(ItemStack item, Player player) {
-        NBT nbt = new NBT(item);
-        nbt.setBoolean("is_multitool", true);
+        addMultitoolNBT(item);
         ItemMeta meta = item.getItemMeta();
         updateFullToolLore(meta, player);
         item.setItemMeta(meta);
@@ -312,7 +347,7 @@ public class MultitoolUtils implements Listener {
 
     // loops through mt and wing inventories and updates the players items
     public void updateMTItems(Player player) {
-        if (isTool(player.getInventory().getItemInMainHand(), main.toollore)) {
+        if (isMultitool(player.getInventory().getItemInMainHand())) {
             for (int i = 0; i < 9; i++) {
                 ItemStack mt_i = getToolInv(player).getItem(i);
                 ItemStack p_i = player.getInventory().getItemInMainHand();
@@ -325,7 +360,7 @@ public class MultitoolUtils implements Listener {
             }
         }
 
-        if (isTool(player.getInventory().getChestplate(), main.winglore)) {
+        if (isMultiArmour(player.getInventory().getChestplate())) {
             for (int i = 0; i < 4; i++) {
                 ItemStack w_i = getWingInv(player).getItem(i);
                 ItemStack p_i = player.getInventory().getChestplate();

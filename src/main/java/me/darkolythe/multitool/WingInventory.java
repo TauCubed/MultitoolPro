@@ -176,7 +176,7 @@ public class WingInventory implements Listener {
                                     player = main.openinv.get(player);
                                 }
                                 PlayerInventory plrinv = player.getInventory(); //this removes the multitool from the player's inventory if a tool is removed from the list
-                                if (main.multitoolutils.isTool((plrinv).getChestplate(), main.winglore)) {
+                                if (main.multitoolutils.isMultiArmour((plrinv).getChestplate())) {
                                     (plrinv).setChestplate(new ItemStack(Material.AIR, 1));
                                     player.sendMessage(main.messages.get("msgtoolremoved"));
                                     event.setCancelled(true);
