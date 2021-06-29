@@ -66,7 +66,6 @@ public class WingDetect implements Listener {
         }
         meta.setLore(lore);
         item.setItemMeta(meta);
-        main.multitoolutils.addMultiarmourNBT(item);
         inv.setItem(index, item);
         main.winginv.put(player.getUniqueId(), inv);
 
@@ -85,6 +84,7 @@ public class WingDetect implements Listener {
         ItemMeta newchestmeta = item.getItemMeta();
         main.multitoolutils.updateFullWingLore(newchestmeta, player);
         item.setItemMeta(newchestmeta);
+        main.multitoolutils.addMultiarmourNBT(item);
         player.getInventory().setChestplate(item);
     }
 }

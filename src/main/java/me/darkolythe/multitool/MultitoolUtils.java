@@ -86,19 +86,19 @@ public class MultitoolUtils implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        Bukkit.getServer().getScheduler().runTaskAsynchronously(main, new Runnable() {
-            @Override
-            public void run() {
-                if (!Multitool.sql) {
-                    main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
-                    main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
-                } else {
+        if (!Multitool.sql) {
+            main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
+            main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
+        } else {
+            Bukkit.getServer().getScheduler().runTaskAsynchronously(main, new Runnable() {
+                @Override
+                public void run() {
                     SQLManager.setPlayerData(event.getPlayer().getUniqueId());
                 }
-                main.toolinv.remove(event.getPlayer().getUniqueId());
-                main.winginv.remove(event.getPlayer().getUniqueId());
-            }
-        });
+            });
+        }
+        main.toolinv.remove(event.getPlayer().getUniqueId());
+        main.winginv.remove(event.getPlayer().getUniqueId());
     }
 
 
@@ -143,7 +143,7 @@ public class MultitoolUtils implements Listener {
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void addMultitoolNBT(ItemStack item) {

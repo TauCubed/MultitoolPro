@@ -40,7 +40,6 @@ public class ConfigManager {
     }
 
     public void playerLoad(UUID uuid, String invdir) {
-
         if (invdir.equals("toolinv.")) {
             Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.DISPENSER, main.mtoinv); //create the mv inv
             if (playerDataConfig.contains("toolinv." + uuid)) {
@@ -118,7 +117,6 @@ public class ConfigManager {
         } catch (IOException e) {
 
         }
-        playerLoad(uuid, invdir);
     }
 
     private void saveItem(ConfigurationSection section, ItemStack itemstack) {/////////////////////////////////////////////Save Load Inv

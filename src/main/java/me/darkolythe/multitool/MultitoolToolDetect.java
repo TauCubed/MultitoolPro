@@ -170,8 +170,6 @@ private Multitool main;
 					stackmeta.setLore(lore);
 					handstack.setItemMeta(stackmeta);
 
-					main.multitoolutils.addMultitoolNBT(handstack);
-
 					mtinv.setItem(i, handstack); //replace old item with used item
 
 					if (changeitem) {

@@ -42,7 +42,12 @@ public class NBT {
 
     public String getString(String tagName) { return get(tagName, "String") + ""; }
     public int getInt(String tagName) { return (int)get(tagName, "Int"); }
-    public boolean getBoolean(String tagName) { return (boolean)get(tagName, "Boolean"); }
+    public boolean getBoolean(String tagName) {
+        if (get(tagName, "Boolean") != null) {
+            return (boolean)get(tagName, "Boolean");
+        }
+        return false;
+    }
     public double getDouble(String tagName) { return (double)get(tagName, "Double"); }
 
     private Object get(String tagName, String n) {
