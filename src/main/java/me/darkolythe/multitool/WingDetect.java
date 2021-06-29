@@ -1,5 +1,6 @@
 package me.darkolythe.multitool;
 
+import NBTManager.NBT;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -66,6 +67,10 @@ public class WingDetect implements Listener {
         }
         meta.setLore(lore);
         item.setItemMeta(meta);
+
+        NBT nbt = new NBT(item);
+        nbt.setBoolean("is_multiarmour", false);
+
         inv.setItem(index, item);
         main.winginv.put(player.getUniqueId(), inv);
 

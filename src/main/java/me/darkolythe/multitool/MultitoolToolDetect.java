@@ -2,6 +2,7 @@ package me.darkolythe.multitool;
 
 import java.util.*;
 
+import NBTManager.NBT;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -169,6 +170,9 @@ private Multitool main;
 					}
 					stackmeta.setLore(lore);
 					handstack.setItemMeta(stackmeta);
+
+					NBT nbt = new NBT(handstack);
+					nbt.setBoolean("is_multitool", false);
 
 					mtinv.setItem(i, handstack); //replace old item with used item
 
