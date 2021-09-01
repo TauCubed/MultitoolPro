@@ -1,6 +1,6 @@
 package me.darkolythe.multitool;
 
-import NBTManager.NBT;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -137,8 +137,8 @@ public class MultitoolUtils implements Listener {
     }
 
     public boolean hasNBT(ItemStack item, String toolType) {
-        NBT nbt = new NBT(item);
-        if (nbt.hasNBTTags()) {
+        NBTItem nbt = new NBTItem(item);
+        if (nbt.hasNBTData()) {
             if (nbt.getBoolean("is_" + toolType)) {
                 return true;
             }
@@ -146,14 +146,16 @@ public class MultitoolUtils implements Listener {
         return false;
     }
 
-    public void addMultitoolNBT(ItemStack item) {
-        NBT nbt = new NBT(item);
+    public ItemStack addMultitoolNBT(ItemStack item) {
+        NBTItem nbt = new NBTItem(item);
         nbt.setBoolean("is_multitool", true);
+        return nbt.getItem();
     }
 
-    public void addMultiarmourNBT(ItemStack item) {
-        NBT nbt = new NBT(item);
+    public ItemStack addMultiarmourNBT(ItemStack item) {
+        NBTItem nbt = new NBTItem(item);
         nbt.setBoolean("is_multiarmour", true);
+        return nbt.getItem();
     }
 
     public boolean isMultitool(ItemStack item) {
@@ -195,11 +197,11 @@ public class MultitoolUtils implements Listener {
     }
 
 
-    public void addNBTLore(ItemStack item, Player player) {
-        addMultitoolNBT(item);
+    public ItemStack addNBTLore(ItemStack item, Player player) {
         ItemMeta meta = item.getItemMeta();
         updateFullToolLore(meta, player);
         item.setItemMeta(meta);
+        return addMultitoolNBT(item);
     }
 
 

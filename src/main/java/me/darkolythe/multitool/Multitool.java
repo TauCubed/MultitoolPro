@@ -88,7 +88,7 @@ public class Multitool extends JavaPlugin implements Listener {
 			createTableIfNotExists();
 		}
 
-		Metrics metrics = new Metrics(plugin);
+		Metrics metrics = new Metrics(plugin, 5671);
 
 		saveDefaultConfig();
 

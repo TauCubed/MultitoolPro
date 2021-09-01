@@ -2,7 +2,7 @@ package me.darkolythe.multitool;
 
 import java.util.*;
 
-import NBTManager.NBT;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -149,7 +149,7 @@ private Multitool main;
 	
 	public void giveStack(ItemStack givestack, Player player) {
 		if (givestack.getType() != Material.AIR) { //if the block being hit changed, update the held item
-			main.multitoolutils.addNBTLore(givestack, player);
+			givestack = main.multitoolutils.addNBTLore(givestack, player);
 
 			player.getInventory().setItemInMainHand(givestack);
 		}
@@ -171,8 +171,9 @@ private Multitool main;
 					stackmeta.setLore(lore);
 					handstack.setItemMeta(stackmeta);
 
-					NBT nbt = new NBT(handstack);
+					NBTItem nbt = new NBTItem(handstack);
 					nbt.setBoolean("is_multitool", false);
+					handstack = nbt.getItem();
 
 					mtinv.setItem(i, handstack); //replace old item with used item
 

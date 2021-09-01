@@ -1,6 +1,6 @@
 package me.darkolythe.multitool;
 
-import NBTManager.NBT;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -60,16 +60,19 @@ public class WingDetect implements Listener {
     public void setMAItem(ItemStack item, int index, Player player, Inventory inv, boolean swap) {
         ItemMeta meta = item.getItemMeta();
         List<String> lore = new ArrayList<>();
-        for (String line : meta.getLore()) {
-            if (!line.equals(main.winglore) && !line.contains(main.colourKey + "- ")) {
-                lore.add(line);
+        if (meta.hasLore()) {
+            for (String line : meta.getLore()) {
+                if (!line.equals(main.winglore) && !line.contains(main.colourKey + "- ")) {
+                    lore.add(line);
+                }
             }
         }
         meta.setLore(lore);
         item.setItemMeta(meta);
 
-        NBT nbt = new NBT(item);
+        NBTItem nbt = new NBTItem(item);
         nbt.setBoolean("is_multiarmour", false);
+        item = nbt.getItem();
 
         inv.setItem(index, item);
         main.winginv.put(player.getUniqueId(), inv);
@@ -89,7 +92,7 @@ public class WingDetect implements Listener {
         ItemMeta newchestmeta = item.getItemMeta();
         main.multitoolutils.updateFullWingLore(newchestmeta, player);
         item.setItemMeta(newchestmeta);
-        main.multitoolutils.addMultiarmourNBT(item);
+        item = main.multitoolutils.addMultiarmourNBT(item);
         player.getInventory().setChestplate(item);
     }
 }
