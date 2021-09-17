@@ -51,17 +51,14 @@ public class SQLManager {
     }
 
     public static void createTableIfNotExists() {
-        System.out.println("here a");
         try {
             ResultSet result = statement.executeQuery("SHOW TABLES;");
 
             while (result.next()) {
-                System.out.println("here b - " + result.getString(1));
                 if ("multitoolplusprodata".equals(result.getString(1))) {
                     return;
                 }
             }
-            System.out.println("here c");
             statement.executeUpdate("CREATE TABLE multitoolplusprodata (" +
                     "UUID VARCHAR(48), " +
                     "sword TEXT(4096), " +
