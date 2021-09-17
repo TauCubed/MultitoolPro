@@ -91,16 +91,20 @@ public class MultitoolUtils implements Listener {
         if (!Multitool.sql) {
             main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "toolinv.");
             main.configmanager.playerSave(event.getPlayer().getUniqueId(), null, "winginv.");
+
+            main.toolinv.remove(event.getPlayer().getUniqueId());
+            main.winginv.remove(event.getPlayer().getUniqueId());
         } else {
             Bukkit.getServer().getScheduler().runTaskAsynchronously(main, new Runnable() {
                 @Override
                 public void run() {
                     SQLManager.setPlayerData(event.getPlayer().getUniqueId());
+
+                    main.toolinv.remove(event.getPlayer().getUniqueId());
+                    main.winginv.remove(event.getPlayer().getUniqueId());
                 }
             });
         }
-        main.toolinv.remove(event.getPlayer().getUniqueId());
-        main.winginv.remove(event.getPlayer().getUniqueId());
     }
 
 

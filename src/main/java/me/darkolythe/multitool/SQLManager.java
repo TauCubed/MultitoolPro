@@ -111,10 +111,10 @@ public class SQLManager {
                     setPlayerData(player.getUniqueId());
                     getPlayerData(player, true);
                 } catch (Exception ex) {
-                    player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact and administrator.");
+                    player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact an administrator.");
                 }
             } else {
-                player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact and administrator.");
+                player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact an administrator.");
             }
         }
     }
