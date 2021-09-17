@@ -110,6 +110,12 @@ public class ConfigManager {
                     saveItem(playerDataConfig.createSection(invdir + uuid + "." + c++), airstack); //if there's nothing in a slot, save it as air
                 }
             }
+        } else if (invdir.equals("migration")) {
+            for (ItemStack itemstack : inv) { //save the player's mt inventory
+                if (itemstack != null) {
+                    saveItem(playerDataConfig.createSection("toolinv." + uuid + "." + c++), itemstack);
+                }
+            }
         }
 
         try {
@@ -124,8 +130,9 @@ public class ConfigManager {
     }
 
     public ItemStack loadItem(ConfigurationSection section) {
-        ItemStack itemstack = new ItemStack(section.getItemStack("itemstack"));
-
-        return itemstack;
+        if (section.getItemStack("itemstack") == null) {
+            return new ItemStack(Material.AIR);
+        }
+        return new ItemStack(section.getItemStack("itemstack"));
     }
 }

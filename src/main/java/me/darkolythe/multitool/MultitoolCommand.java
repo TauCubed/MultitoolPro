@@ -83,11 +83,7 @@ public class MultitoolCommand implements CommandExecutor {
 					if (player.hasPermission("multitool.migrate")) {
 						if (args[1].equalsIgnoreCase("old")) {
 							player.sendMessage(main.prefix + ChatColor.WHITE + "The server may lag depending on the amount of saved multitools...");
-							if (main.multitoolutils.migrate()) {
-								player.sendMessage(main.prefix + ChatColor.WHITE + "Migration done. Multitools were successfully transferred");
-							} else {
-								player.sendMessage(main.prefix + ChatColor.WHITE + "No multitools from the regular version of the plugin were found. Migration done.");
-							}
+							main.multitoolutils.migrate(player);
 						} else if (args[1].equalsIgnoreCase("database")) {
 							player.sendMessage(main.prefix + ChatColor.WHITE + "The server may lag depending on the amount of saved multitools...");
 							main.multitoolutils.transferToDatabase(player);
