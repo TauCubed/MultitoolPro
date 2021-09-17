@@ -21,6 +21,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.File;
 import java.util.*;
 
+import static me.darkolythe.multitool.SQLManager.createTableIfNotExists;
+
 public class MultitoolUtils implements Listener {
 
     private Multitool main;
@@ -303,6 +305,8 @@ public class MultitoolUtils implements Listener {
     public void transferToDatabase(Player player) {
         if (Multitool.sql) {
             File file = new File(main.getDataFolder(), "PlayerData.yml");
+
+            createTableIfNotExists();
 
             if (file.exists()) {
                 FileConfiguration config = YamlConfiguration.loadConfiguration(file);

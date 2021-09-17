@@ -51,24 +51,27 @@ public class SQLManager {
     }
 
     public static void createTableIfNotExists() {
+        System.out.println("here a");
         try {
             ResultSet result = statement.executeQuery("SHOW TABLES;");
 
             while (result.next()) {
+                System.out.println("here b - " + result.getString(1));
                 if ("multitoolplusprodata".equals(result.getString(1))) {
                     return;
                 }
             }
+            System.out.println("here c");
             statement.executeUpdate("CREATE TABLE multitoolplusprodata (" +
                     "UUID VARCHAR(48), " +
-                    "sword VARCHAR(4096), " +
-                    "pickaxe VARCHAR(4096), " +
-                    "axe VARCHAR(4096), " +
-                    "shovel VARCHAR(4096), " +
-                    "hoe VARCHAR(4096), " +
-                    "shears VARCHAR(4096), " +
-                    "chestplate VARCHAR(4096), " +
-                    "elytra VARCHAR(4096), " +
+                    "sword TEXT(4096), " +
+                    "pickaxe TEXT(4096), " +
+                    "axe TEXT(4096), " +
+                    "shovel TEXT(4096), " +
+                    "hoe TEXT(4096), " +
+                    "shears TEXT(4096), " +
+                    "chestplate TEXT(4096), " +
+                    "elytra TEXT(4096), " +
                     "PRIMARY KEY (UUID));");
         } catch (Exception e) {
             System.out.println("Could not create mySQL table.");
@@ -93,7 +96,7 @@ public class SQLManager {
 
 
         try {
-            ResultSet result = statement.executeQuery("SELECT * FROM MultitoolPlusProData WHERE UUID = '" + uuid + "';");
+            ResultSet result = statement.executeQuery("SELECT * FROM multitoolplusprodata WHERE UUID = '" + uuid + "';");
 
             result.next();
 
@@ -133,7 +136,7 @@ public class SQLManager {
             String chestplate = serializeItemStack(w_inv.getItem(1));
             String elytra = serializeItemStack(w_inv.getItem(2));
 
-            statement.executeUpdate("INSERT INTO MultitoolPlusProData (UUID, sword, pickaxe, axe, shovel, hoe, shears, chestplate, elytra) " +
+            statement.executeUpdate("INSERT INTO multitoolplusprodata (UUID, sword, pickaxe, axe, shovel, hoe, shears, chestplate, elytra) " +
                     "VALUES ('" + uuid.toString() + "', '" + sword + "', '" + pickaxe + "', '" + axe + "', '" + shovel +
                     "', '" + hoe + "', '" + shears + "', '" + chestplate + "', '" + elytra + "') ON DUPLICATE KEY UPDATE " +
                     "sword = VALUES(sword), " +
