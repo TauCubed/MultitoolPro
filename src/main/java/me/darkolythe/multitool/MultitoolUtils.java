@@ -39,6 +39,9 @@ public class MultitoolUtils implements Listener {
         Multitool.blacklistedLores = main.getConfig().getStringList("lore-blacklist");
         Multitool.vanish = main.getConfig().getStringList("loseondeath");
         Multitool.sql = main.getConfig().getBoolean("enable_sql");
+
+        SQLManager.connect(main);
+
         main.messages.put("msgcannotput", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgcannotput").replace("%prefix%", main.prefix)));
         main.messages.put("msgdrop", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgdrop").replace("%prefix%", main.prefix)));
         main.messages.put("msgremove", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgremove").replace("%prefix%", main.prefix)));
@@ -310,28 +313,30 @@ public class MultitoolUtils implements Listener {
         if (Multitool.sql) {
             File file = new File(main.getDataFolder(), "PlayerData.yml");
 
-            createTableIfNotExists();
+            if (createTableIfNotExists()) {
 
-            if (file.exists()) {
-                FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+                if (file.exists()) {
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-                if (config.contains("toolinv")) {
-                    for (String uuid : config.getConfigurationSection("toolinv").getKeys(false)) {
-                        main.configmanager.playerLoad(UUID.fromString(uuid), "toolinv.");
-                        main.configmanager.playerLoad(UUID.fromString(uuid), "winginv.");
-                        SQLManager.setPlayerData(UUID.fromString(uuid));
-                        main.toolinv.remove(UUID.fromString(uuid));
-                        main.winginv.remove(UUID.fromString(uuid));
+                    if (config.contains("toolinv")) {
+                        for (String uuid : config.getConfigurationSection("toolinv").getKeys(false)) {
+                            main.configmanager.playerLoad(UUID.fromString(uuid), "toolinv.");
+                            main.configmanager.playerLoad(UUID.fromString(uuid), "winginv.");
+                            SQLManager.setPlayerData(UUID.fromString(uuid));
+                            main.toolinv.remove(UUID.fromString(uuid));
+                            main.winginv.remove(UUID.fromString(uuid));
+                        }
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            SQLManager.getPlayerData(p, false);
+                        }
+                        player.sendMessage(main.prefix + ChatColor.GREEN + "PlayerData.yml has been migrated.");
+                    } else {
+                        player.sendMessage(main.prefix + ChatColor.RED + "No players found for migration.");
                     }
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        SQLManager.getPlayerData(p, false);
-                    }
-                    player.sendMessage(main.prefix + ChatColor.GREEN + "PlayerData.yml has been migrated.");
                 } else {
-                    player.sendMessage(main.prefix + ChatColor.RED + "No players found for migration.");
+                    player.sendMessage(main.prefix + ChatColor.RED + "No PlayerData.yml file found.");
                 }
-            } else {
-                player.sendMessage(main.prefix + ChatColor.RED + "No PlayerData.yml file found.");
+
             }
         } else {
             player.sendMessage(main.prefix + ChatColor.RED + "SQL is not enabled in the config.");

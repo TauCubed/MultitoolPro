@@ -35,9 +35,7 @@ public class SQLManager {
         try {
             openConnection();
             statement = connection.createStatement();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -50,13 +48,13 @@ public class SQLManager {
         connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", username, password);
     }
 
-    public static void createTableIfNotExists() {
+    public static boolean createTableIfNotExists() {
         try {
             ResultSet result = statement.executeQuery("SHOW TABLES;");
 
             while (result.next()) {
                 if ("multitoolplusprodata".equals(result.getString(1))) {
-                    return;
+                    return true;
                 }
             }
             statement.executeUpdate("CREATE TABLE multitoolplusprodata (" +
@@ -70,14 +68,17 @@ public class SQLManager {
                     "chestplate TEXT(4096), " +
                     "elytra TEXT(4096), " +
                     "PRIMARY KEY (UUID));");
+
+            return true;
         } catch (Exception e) {
             System.out.println("Could not create mySQL table.");
         }
+        return false;
     }
 
     public static void getPlayerData(Player player, boolean inloop) {
-        Inventory inv = Bukkit.getServer().createInventory(null, InventoryType.DISPENSER, main.mtoinv); //create the mv inv
-        Inventory winv = Bukkit.getServer().createInventory(null, InventoryType.HOPPER, main.mtwinv); //create the mv inv
+        Inventory inv = Bukkit.getServer().createInventory(player, InventoryType.DISPENSER, main.mtoinv); //create the mv inv
+        Inventory winv = Bukkit.getServer().createInventory(player, InventoryType.HOPPER, main.mtwinv); //create the mv inv
 
         UUID uuid = player.getUniqueId();
 

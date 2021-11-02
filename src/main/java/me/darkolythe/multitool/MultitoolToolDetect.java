@@ -30,6 +30,8 @@ private Multitool main;
 	private int getToolType(Material material) {
 		String mat = material.toString();
 
+		
+
 		if (map.map.containsKey(mat)) {
 			return map.map.get(mat);
 		}

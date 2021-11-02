@@ -104,7 +104,7 @@ public class ToolMap {
         map.put("DEEPSLATE_EMERALD_ORE", 1);
         map.put("DEEPSLATE_GOLD_ORE", 1);
         map.put("DEEPSLATE_IRON_ORE", 1);
-        map.put("DEEPSLATE_IAPIS_ORE", 1);
+        map.put("DEEPSLATE_LAPIS_ORE", 1);
         map.put("DEEPSLATE_REDSTONE_ORE", 1);
         map.put("DEEPSLATE_TILES", 1);
         map.put("DEEPSLATE_TILE_SLAB", 1);
@@ -519,6 +519,8 @@ public class ToolMap {
         map.put("WARPED_TRAPDOOR", 2);
         map.put("WARPED_STAIRS", 2);
         map.put("CRIMSON_STAIRS", 2);
+        map.put("CRIMSON_SLAB", 2);
+        map.put("WARPED_SLAB", 2);
 
         map.put("BLACK_CONCRETE_POWDER", 3);
         map.put("BLUE_CONCRETE_POWDER", 3);
