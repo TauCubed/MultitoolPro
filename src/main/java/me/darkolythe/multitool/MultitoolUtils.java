@@ -40,7 +40,9 @@ public class MultitoolUtils implements Listener {
         Multitool.vanish = main.getConfig().getStringList("loseondeath");
         Multitool.sql = main.getConfig().getBoolean("enable_sql");
 
-        SQLManager.connect(main);
+        if (Multitool.sql) {
+            SQLManager.connect(main);
+        }
 
         main.messages.put("msgcannotput", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgcannotput").replace("%prefix%", main.prefix)));
         main.messages.put("msgdrop", ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("msgdrop").replace("%prefix%", main.prefix)));
