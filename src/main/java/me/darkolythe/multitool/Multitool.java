@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import java.util.logging.Level;
 
 import static me.darkolythe.multitool.SQLManager.createTableIfNotExists;
 
@@ -92,7 +93,7 @@ public class Multitool extends JavaPlugin implements Listener {
 
 		saveDefaultConfig();
 
-		System.out.println(prefix + ChatColor.GREEN + "Multitool Plus Pro enabled!");
+		getLogger().log(Level.INFO, (prefix + ChatColor.GREEN + "Multitool Plus Pro enabled!"));
 	}
 	
 	public void onDisable() {
@@ -101,8 +102,8 @@ public class Multitool extends JavaPlugin implements Listener {
 			configmanager.playerSave(player.getUniqueId(), null, "toolinv."); //this saves all the player mt inv information if the server is reloading
 			configmanager.playerSave(player.getUniqueId(), null, "winginv.");
 		}
-		
-		System.out.println(prefix + ChatColor.RED + "Multitool Plus Pro disabled!");
+
+		getLogger().log(Level.INFO, (prefix + ChatColor.RED + "Multitool Plus Pro disabled!"));
 	}
 
 	public static Multitool getInstance() {

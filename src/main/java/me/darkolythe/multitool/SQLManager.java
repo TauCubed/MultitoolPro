@@ -16,12 +16,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class SQLManager {
 
     private static String host, port, database, username, password;
     private static Connection connection;
-    private static Statement statement;
     private static Multitool main;
 
     public static void connect(Multitool multitool) {
@@ -34,7 +34,6 @@ public class SQLManager {
 
         try {
             openConnection();
-            statement = connection.createStatement();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,6 +49,8 @@ public class SQLManager {
 
     public static boolean createTableIfNotExists() {
         try {
+            Statement statement = connection.createStatement();
+
             ResultSet result = statement.executeQuery("SHOW TABLES;");
 
             while (result.next()) {
@@ -69,9 +70,11 @@ public class SQLManager {
                     "elytra TEXT(4096), " +
                     "PRIMARY KEY (UUID));");
 
+            statement.close();
+
             return true;
         } catch (Exception e) {
-            System.out.println("Could not create mySQL table.");
+            main.getLogger().log(Level.INFO, ("Could not create mySQL table."));
         }
         return false;
     }
@@ -94,6 +97,8 @@ public class SQLManager {
 
 
         try {
+            Statement statement = connection.createStatement();
+
             ResultSet result = statement.executeQuery("SELECT * FROM multitoolplusprodata WHERE UUID = '" + uuid + "';");
 
             result.next();
@@ -106,6 +111,8 @@ public class SQLManager {
             inv.setItem(5, deserializeItemStack(result.getString("shears")));
             winv.setItem(1, deserializeItemStack(result.getString("chestplate")));
             winv.setItem(2, deserializeItemStack(result.getString("elytra")));
+
+            statement.close();
         } catch (Exception e) {
             if (!inloop) {
                 try {
@@ -122,6 +129,8 @@ public class SQLManager {
 
     public static void setPlayerData(UUID uuid) {
         try {
+            Statement statement = connection.createStatement();
+
             Inventory m_inv = main.toolinv.get(uuid);
             Inventory w_inv = main.winginv.get(uuid);
 
@@ -145,6 +154,8 @@ public class SQLManager {
                     "shears = VALUES(shears), " +
                     "chestplate = VALUES(chestplate), " +
                     "elytra = VALUES(elytra);");
+
+            statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

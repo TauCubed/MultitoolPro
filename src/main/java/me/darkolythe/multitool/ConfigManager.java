@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.logging.Level;
+
 
 public class ConfigManager {
 
@@ -30,10 +32,13 @@ public class ConfigManager {
 
         if (!playerData.exists()) {
             try {
-                playerData.createNewFile();
-                System.out.println(main.prefix + ChatColor.GREEN + "PlayerData.yml has been created");
+                if (playerData.createNewFile()) {
+                    main.getLogger().log(Level.INFO, (main.prefix + ChatColor.GREEN + "PlayerData.yml has been created"));
+                } else {
+                    main.getLogger().log(Level.INFO, (main.prefix + ChatColor.RED + "Could not create PlayerData.yml"));
+                }
             } catch (IOException e) {
-                System.out.println(main.prefix + ChatColor.RED + "Could not create PlayerData.yml");
+                main.getLogger().log(Level.INFO, (main.prefix + ChatColor.RED + "Could not create PlayerData.yml"));
             }
         }
         playerDataConfig = YamlConfiguration.loadConfiguration(playerData);
