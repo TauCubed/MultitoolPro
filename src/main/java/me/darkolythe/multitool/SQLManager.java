@@ -37,6 +37,18 @@ public class SQLManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(main, () -> {
+            try {
+                Statement statement = connection.createStatement();
+
+                statement.executeQuery("SHOW TABLES;");
+
+                statement.close();
+            } catch (Exception e) {
+                main.getLogger().log(Level.INFO, ("Could not connect to table."));
+            }
+        }, 432000L, 432000L);
     }
 
     private static void openConnection() throws SQLException, ClassNotFoundException {
