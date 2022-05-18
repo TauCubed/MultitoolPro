@@ -56,7 +56,7 @@ public class SQLManager {
             return;
         }
         Class.forName("com.mysql.jdbc.Driver");
-        connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", username, password);
+        connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?allowPublicKeyRetrieval=true&useSSL=false", username, password);
     }
 
     public static boolean createTableIfNotExists() {
