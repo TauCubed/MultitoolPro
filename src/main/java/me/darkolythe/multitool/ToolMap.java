@@ -355,6 +355,11 @@ public class ToolMap {
         map.put("POLISHED_BLACKSTONE_BRICK_WALL", 1);
         map.put("POLISHED_BLACKSTONE_WALL", 1);
         map.put("BLACKSTONE_WALL", 1);
+        map.put("MUD_BRICKS", 1);
+        map.put("MUD_BRICK_SLAB", 1);
+        map.put("MUD_BRICK_STAIRS", 1);
+        map.put("MUD_BRICK_WALL", 1);
+        map.put("PACKED_MUD", 1);
 
         map.put("ACACIA_BUTTON", 2);
         map.put("ACACIA_DOOR", 2);
@@ -521,6 +526,21 @@ public class ToolMap {
         map.put("CRIMSON_STAIRS", 2);
         map.put("CRIMSON_SLAB", 2);
         map.put("WARPED_SLAB", 2);
+        map.put("MANGROVE_BUTTON", 2);
+        map.put("MANGROVE_PLANKS", 2);
+        map.put("MANGROVE_LOG", 2);
+        map.put("MANGROVE_ROOTS", 2);
+        map.put("STRIPPED_MANGROVE_LOG", 2);
+        map.put("STRIPPED_MANGROVE_WOOD", 2);
+        map.put("MANGROVE_WOOD", 2);
+        map.put("MANGROVE_SLAB", 2);
+        map.put("MANGROVE_DOOR", 2);
+        map.put("MANGROVE_FENCE", 2);
+        map.put("MANGROVE_STAIRS", 2);
+        map.put("MANGROVE_PRESSURE_PLATE", 2);
+        map.put("MANGROVE_TRAPDOOR", 2);
+        map.put("MANGROVE_FENCE_GATE", 2);
+        map.put("MANGROVE_SIGN", 2);
 
         map.put("BLACK_CONCRETE_POWDER", 3);
         map.put("BLUE_CONCRETE_POWDER", 3);
@@ -554,6 +574,8 @@ public class ToolMap {
         map.put("SOUL_SOIL", 3);
         map.put("WHITE_CONCRETE_POWDER", 3);
         map.put("YELLOW_CONCRETE_POWDER", 3);
+        map.put("MUDDY_MANGROVE_ROOTS", 3);
+        map.put("MUD", 3);
 
         map.put("SHROOMLIGHT", 4);
         map.put("TARGET", 4);
@@ -563,16 +585,22 @@ public class ToolMap {
         map.put("WET_SPONGE", 4);
         map.put("DRIED_KELP_BLOCK", 4);
         map.put("HAY_BLOCK", 4);
+        map.put("MOSS_BLOCK", 4);
+        map.put("MANGROVE_LEAVES", 4);
         map.put("AZALEA_LEAVES", 4);
         map.put("FLOWERING_AZALEA_LEAVES", 4);
-        map.put("MOSS_BLOCK", 4);
+        map.put("SCULK", 4);
+        map.put("SCULK_SHRIEKER", 4);
+        map.put("SCULK_SENSOR", 4);
+        map.put("SCULK_VEIN", 4);
+        map.put("SCULK_CATALYST", 4);
+        map.put("ACACIA_LEAVES", 4);
+        map.put("BIRCH_LEAVES", 4);
+        map.put("DARK_OAK_LEAVES", 4);
+        map.put("JUNGLE_LEAVES", 4);
+        map.put("OAK_LEAVES", 4);
+        map.put("SPRUCE_LEAVES", 4);
 
-        map.put("ACACIA_LEAVES", 5);
-        map.put("BIRCH_LEAVES", 5);
-        map.put("DARK_OAK_LEAVES", 5);
-        map.put("JUNGLE_LEAVES", 5);
-        map.put("OAK_LEAVES", 5);
-        map.put("SPRUCE_LEAVES", 5);
         map.put("TWISTING_VINES_PLANT", 5);
         map.put("VINE", 5);
         map.put("WEEPING_VINES", 5);

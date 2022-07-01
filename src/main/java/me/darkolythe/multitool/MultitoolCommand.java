@@ -117,5 +117,4 @@ public class MultitoolCommand implements CommandExecutor {
 		}
 		return true;
 	}
-	
 }

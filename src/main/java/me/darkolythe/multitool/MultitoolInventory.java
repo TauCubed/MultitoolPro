@@ -58,7 +58,7 @@ public class MultitoolInventory implements Listener {
 			if (player.getOpenInventory().getTopInventory().getType() == InventoryType.DISPENSER) {
 				if (view.getTitle().equals(main.mtoinv)) {
 					if (event.getClickedInventory().equals(player.getInventory()) && event.isShiftClick()) {
-						if (!checkBlackList(event.getCurrentItem(), player)) {
+						if (!checkBlackList(event.getCurrentItem(), player) && event.getCurrentItem() != null) {
 							String type = event.getCurrentItem().clone().getType().toString();
 							for (String s : toolMap.keySet()) {
 								if (type.contains("_" + s) || s.equals(type)) {
