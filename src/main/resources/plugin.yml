@@ -1,5 +1,5 @@
 name: MultitoolPlusPro
-version: 3.5.14
+version: 3.5.15
 author: Darkolythe
 main: me.darkolythe.multitool.Multitool
 api-version: 1.13
@@ -7,7 +7,7 @@ description: This plugin allows the use of multiple tools in one item, and switc
 
 commands:
     multitool:
-        usage: /<command> [open / toggle / reload / migrate / wings]
+        usage: /<command> [open / toggle / create / reload / migrate / wings]
         aliases: [mt]
         description: the main Multitool command
         permission: multitool.command

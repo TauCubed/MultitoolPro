@@ -106,63 +106,8 @@ public class MultitoolInventory implements Listener {
 									}
 								}
 								if (type.contains("FEATHER")) {
-									boolean forloop = false;
-									ItemStack genstack = null;
-									if (!main.openinv.containsKey(player)) {
-										for (int i = 0; i < 9; i++) { //this loops through the mt inv, and gives the player the first multitool that shows up
-											if (main.toolinv.get(player.getUniqueId()).getItem(i) != null) {
-												Material curmat = main.toolinv.get(player.getUniqueId()).getItem(i).getType();
-												forloop = false;
-												if (curmat != Material.GRAY_STAINED_GLASS_PANE && curmat != Material.FEATHER) {
-													genstack = main.toolinv.get(player.getUniqueId()).getItem(i).clone();
-													genstack = main.multitoolutils.addNBTLore(genstack, player);
-													forloop = true; //this means a tool has been found, and will be given to the player if they have space
-													break;
-												}
-											}
-										}
-									} else {
-										player.sendMessage(main.messages.get("msgnotmultitool"));
-										event.setCancelled(true);
-										return;
-									}
-									if (!forloop) {
-										player.sendMessage(main.messages.get("msgempty"));
-									} else {
-										Inventory plrinv = player.getInventory();
-										boolean hasitem = false;
-										for (ItemStack i : plrinv) {
-											if (i != null && i.getType() != Material.AIR) {
-												if (i.getItemMeta() != null) {
-													ItemMeta imeta = i.getItemMeta();
-													if (imeta.hasLore()) {
-														for (String l : imeta.getLore()) {
-															if (l.equals(main.toollore)) {
-																hasitem = true;
-																break;
-															}
-														}
-													}
-												}
-											}
-										}
+									giveMultitool(main, player);
 
-										boolean giveitem;
-										if (plrinv.firstEmpty() == -1) {
-											giveitem = false;
-										} else {
-											giveitem = true;
-										}
-
-										if (giveitem && !hasitem) {
-											plrinv.addItem(genstack);
-											player.sendMessage(main.messages.get("msggiven"));
-										} else if (!giveitem) {
-											player.sendMessage(main.messages.get("msgnospace"));
-										} else {
-											player.sendMessage(main.messages.get("msgalreadyhave"));
-										}
-									}
 									event.setCancelled(true);
 									player.closeInventory();
 								} else {
@@ -201,6 +146,65 @@ public class MultitoolInventory implements Listener {
 						event.setCancelled(true);
 					}
 				}
+			}
+		}
+	}
+
+	static void giveMultitool(Multitool main, Player player) {
+		boolean forloop = false;
+		ItemStack genstack = null;
+		if (!main.openinv.containsKey(player)) {
+			for (int i = 0; i < 9; i++) { //this loops through the mt inv, and gives the player the first multitool that shows up
+				if (main.toolinv.get(player.getUniqueId()).getItem(i) != null) {
+					Material curmat = main.toolinv.get(player.getUniqueId()).getItem(i).getType();
+					forloop = false;
+					if (curmat != Material.GRAY_STAINED_GLASS_PANE && curmat != Material.FEATHER) {
+						genstack = main.toolinv.get(player.getUniqueId()).getItem(i).clone();
+						genstack = main.multitoolutils.addNBTLore(genstack, player);
+						forloop = true; //this means a tool has been found, and will be given to the player if they have space
+						break;
+					}
+				}
+			}
+		} else {
+			player.sendMessage(main.messages.get("msgnotmultitool"));
+			return;
+		}
+		if (!forloop) {
+			player.sendMessage(main.messages.get("msgempty"));
+		} else {
+			Inventory plrinv = player.getInventory();
+			boolean hasitem = false;
+			for (ItemStack i : plrinv) {
+				if (i != null && i.getType() != Material.AIR) {
+					if (i.getItemMeta() != null) {
+						ItemMeta imeta = i.getItemMeta();
+						if (imeta.hasLore()) {
+							for (String l : imeta.getLore()) {
+								if (l.equals(main.toollore)) {
+									hasitem = true;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			boolean giveitem;
+			if (plrinv.firstEmpty() == -1) {
+				giveitem = false;
+			} else {
+				giveitem = true;
+			}
+
+			if (giveitem && !hasitem) {
+				plrinv.addItem(genstack);
+				player.sendMessage(main.messages.get("msggiven"));
+			} else if (!giveitem) {
+				player.sendMessage(main.messages.get("msgnospace"));
+			} else {
+				player.sendMessage(main.messages.get("msgalreadyhave"));
 			}
 		}
 	}

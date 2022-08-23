@@ -186,10 +186,10 @@ public class MultitoolListener implements Listener {
 		if (!event.getKeepInventory()) {
 			if (Multitool.dropondeath) {
 				if (main.toolinv.containsKey(player.getUniqueId())) {
-					dropItems(player, main.toolinv.get(player.getUniqueId()));
+					dropItems(event, main.toolinv.get(player.getUniqueId()));
 				}
 				if (main.winginv.containsKey(player.getUniqueId())) {
-					dropItems(player, main.winginv.get(player.getUniqueId()));
+					dropItems(event, main.winginv.get(player.getUniqueId()));
 				}
 			}
 			List<ItemStack> drops = event.getDrops();
@@ -203,7 +203,7 @@ public class MultitoolListener implements Listener {
 		}
 	}
 
-	private void dropItems(Player player, Inventory inv) {
+	private void dropItems(PlayerDeathEvent event, Inventory inv) {
 		int index = 0;
 		for (ItemStack i : inv.getContents()) {
 			boolean vanish = false;
@@ -230,7 +230,7 @@ public class MultitoolListener implements Listener {
 					}
 				}
 				if (!vanish && !soulbound) {
-					player.getWorld().dropItemNaturally(player.getLocation(), i);
+					event.getDrops().add(i);
 				}
 				if (!soulbound) {
 					inv.setItem(index, main.placeholders.get(index));

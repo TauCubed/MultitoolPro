@@ -7,6 +7,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.darkolythe.multitool.MultitoolInventory.giveMultitool;
+
 public class MultitoolCommand implements CommandExecutor {
 
 	private Multitool main = Multitool.getInstance();
@@ -26,19 +28,21 @@ public class MultitoolCommand implements CommandExecutor {
 			}
 
 			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("Open") || args[0].equalsIgnoreCase("O")) {
+				if (args[0].equalsIgnoreCase("open") || args[0].equalsIgnoreCase("O")) {
 					if (player.hasPermission("multitool.use")) {
 						player.openInventory(main.multitoolutils.getToolInv(player));
 					} else {
 						sender.sendMessage(main.messages.get("msgnopermission"));
 					}
-				} else if (args[0].equalsIgnoreCase("Toggle") || args[0].equalsIgnoreCase("T")) {
+				} else if (args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("T")) {
 					main.multitoolutils.setToggle(player.getUniqueId(), !main.multitoolutils.getToggle(player.getUniqueId()));
 					if (main.multitoolutils.getToggle(player.getUniqueId())) {
 						sender.sendMessage(main.messages.get("msgtoggleon"));
 					} else {
 						sender.sendMessage(main.messages.get("msgtoggleoff"));
 					}
+				} else if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("c")) {
+					giveMultitool(main, player);
 				} else if (args[0].equalsIgnoreCase("Reload")) {
 					if (player.hasPermission("multitool.reload")) {
 						main.multitoolutils.getConfigs();
@@ -60,7 +64,7 @@ public class MultitoolCommand implements CommandExecutor {
 					}
 				} else {
 					if (!player.hasPermission("multitool.migrate")) {
-						sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle]");
+						sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, create]");
 					} else {
 						sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, migrate, reload]");
 					}
@@ -109,7 +113,7 @@ public class MultitoolCommand implements CommandExecutor {
 				}
 			} else {
 				if (!player.hasPermission("multitool.migrate")) {
-					sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle]");
+					sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, create]");
 				} else {
 					sender.sendMessage(main.messages.get("msginvalid") + " /mt [open, wings, toggle, migrate, reload]");
 				}
