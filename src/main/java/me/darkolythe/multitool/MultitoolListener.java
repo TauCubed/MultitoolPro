@@ -312,7 +312,8 @@ public class MultitoolListener implements Listener {
 
 		if (isTool || isWing) {
 			Entity ent = event.getRightClicked();
-			if (ent.getType() == EntityType.ITEM_FRAME) {
+			EntityType type = ent.getType();
+			if (ent instanceof ItemFrame || type.toString().equals("ALLAY")) {
 				event.setCancelled(true);
 				player.sendMessage(main.messages.get("msgitemframe"));
 			}
