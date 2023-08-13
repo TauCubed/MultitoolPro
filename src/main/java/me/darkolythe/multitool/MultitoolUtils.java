@@ -106,11 +106,9 @@ public class MultitoolUtils implements Listener {
             main.toolinv.remove(event.getPlayer().getUniqueId());
             main.winginv.remove(event.getPlayer().getUniqueId());
         } else {
-            synchronized (main.toolinv) {
-                Inventory m_inv = main.toolinv.remove(event.getPlayer().getUniqueId());
-                Inventory w_inv = main.winginv.remove(event.getPlayer().getUniqueId());
-                Bukkit.getServer().getScheduler().runTaskAsynchronously(main, () -> SQLManager.setPlayerData(event.getPlayer().getUniqueId(), m_inv, w_inv));
-            }
+            Inventory m_inv = main.toolinv.remove(event.getPlayer().getUniqueId());
+            Inventory w_inv = main.winginv.remove(event.getPlayer().getUniqueId());
+            Bukkit.getServer().getScheduler().runTaskAsynchronously(main, () -> SQLManager.setPlayerData(event.getPlayer().getUniqueId(), m_inv, w_inv));
         }
     }
 
