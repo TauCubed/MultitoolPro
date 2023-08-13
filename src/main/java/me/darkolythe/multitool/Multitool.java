@@ -108,7 +108,7 @@ public class Multitool extends JavaPlugin implements Listener {
 				configmanager.playerSave(player.getUniqueId(), null, "toolinv."); //this saves all the player mt inv information if the server is reloading
 				configmanager.playerSave(player.getUniqueId(), null, "winginv.");
 			} else {
-				SQLManager.setPlayerData(player.getUniqueId(), toolinv.get(player.getUniqueId()), winginv.get(player.getUniqueId()));
+				SQLManager.setPlayerData(player.getUniqueId(), Arrays.asList(toolinv.get(player.getUniqueId()).getContents()), Arrays.asList(winginv.get(player.getUniqueId()).getContents()));
 			}
 		}
 

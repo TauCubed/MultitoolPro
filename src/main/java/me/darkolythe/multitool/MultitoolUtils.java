@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -21,7 +20,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static me.darkolythe.multitool.SQLManager.createTableIfNotExists;
 
@@ -106,8 +104,11 @@ public class MultitoolUtils implements Listener {
             main.toolinv.remove(event.getPlayer().getUniqueId());
             main.winginv.remove(event.getPlayer().getUniqueId());
         } else {
-            Inventory m_inv = main.toolinv.remove(event.getPlayer().getUniqueId());
-            Inventory w_inv = main.winginv.remove(event.getPlayer().getUniqueId());
+            List<ItemStack> m_inv = Arrays.asList(main.toolinv.remove(event.getPlayer().getUniqueId()).getContents());
+            List<ItemStack> w_inv = Arrays.asList(main.winginv.remove(event.getPlayer().getUniqueId()).getContents());
+            m_inv.replaceAll(s -> s == null ? s : s.clone());
+            w_inv.replaceAll(s -> s == null ? s : s.clone());
+
             Bukkit.getServer().getScheduler().runTaskAsynchronously(main, () -> SQLManager.setPlayerData(event.getPlayer().getUniqueId(), m_inv, w_inv));
         }
     }
@@ -322,7 +323,9 @@ public class MultitoolUtils implements Listener {
                         for (String uuid : config.getConfigurationSection("toolinv").getKeys(false)) {
                             main.configmanager.playerLoad(UUID.fromString(uuid), "toolinv.");
                             main.configmanager.playerLoad(UUID.fromString(uuid), "winginv.");
-                            SQLManager.setPlayerData(UUID.fromString(uuid), main.toolinv.remove(UUID.fromString(uuid)), main.winginv.remove(UUID.fromString(uuid)));
+                            SQLManager.setPlayerData(UUID.fromString(uuid),
+                                    Arrays.asList(main.toolinv.remove(UUID.fromString(uuid)).getContents()),
+                                    Arrays.asList(main.winginv.remove(UUID.fromString(uuid)).getContents()));
                         }
                         for (Player p : Bukkit.getOnlinePlayers()) {
                             SQLManager.getPlayerData(p, false);

@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -140,18 +141,18 @@ public class SQLManager {
         }
     }
 
-    public static void setPlayerData(UUID uuid, Inventory m_inv, Inventory w_inv) {
+    public static void setPlayerData(UUID uuid, List<ItemStack> m_inv, List<ItemStack> w_inv) {
         try {
             Statement statement = connection.createStatement();
 
-            String sword = serializeItemStack(m_inv.getItem(0));
-            String pickaxe = serializeItemStack(m_inv.getItem(1));
-            String axe = serializeItemStack(m_inv.getItem(2));
-            String shovel = serializeItemStack(m_inv.getItem(3));
-            String hoe = serializeItemStack(m_inv.getItem(4));
-            String shears = serializeItemStack(m_inv.getItem(5));
-            String chestplate = serializeItemStack(w_inv.getItem(1));
-            String elytra = serializeItemStack(w_inv.getItem(2));
+            String sword = serializeItemStack(m_inv.get(0));
+            String pickaxe = serializeItemStack(m_inv.get(1));
+            String axe = serializeItemStack(m_inv.get(2));
+            String shovel = serializeItemStack(m_inv.get(3));
+            String hoe = serializeItemStack(m_inv.get(4));
+            String shears = serializeItemStack(m_inv.get(5));
+            String chestplate = serializeItemStack(w_inv.get(1));
+            String elytra = serializeItemStack(w_inv.get(2));
 
             statement.executeUpdate("INSERT INTO multitoolplusprodata (UUID, sword, pickaxe, axe, shovel, hoe, shears, chestplate, elytra) " +
                     "VALUES ('" + uuid.toString() + "', '" + sword + "', '" + pickaxe + "', '" + axe + "', '" + shovel +
