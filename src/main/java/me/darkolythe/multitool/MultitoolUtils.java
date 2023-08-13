@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -20,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static me.darkolythe.multitool.SQLManager.createTableIfNotExists;
 
@@ -82,12 +84,16 @@ public class MultitoolUtils implements Listener {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////Player leave and join
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent e) {
         if (!Multitool.sql) {
-            main.configmanager.playerLoad(event.getPlayer().getUniqueId(), "toolinv.");
-            main.configmanager.playerLoad(event.getPlayer().getUniqueId(), "winginv.");
+            main.configmanager.playerLoad(e.getPlayer().getUniqueId(), "toolinv.");
+            main.configmanager.playerLoad(e.getPlayer().getUniqueId(), "winginv.");
         } else {
-            SQLManager.getPlayerData(event.getPlayer(), false);
+            // prevent data from loading when it is already loaded
+            if (!main.toolinv.containsKey(e.getPlayer().getUniqueId()) || !main.winginv.containsKey(e.getPlayer().getUniqueId())) {
+                // why is this on the main thread? might fix later IDK.
+                SQLManager.getPlayerData(e.getPlayer(), false);
+            }
         }
     }
 
@@ -100,19 +106,13 @@ public class MultitoolUtils implements Listener {
             main.toolinv.remove(event.getPlayer().getUniqueId());
             main.winginv.remove(event.getPlayer().getUniqueId());
         } else {
-            Bukkit.getServer().getScheduler().runTaskAsynchronously(main, new Runnable() {
-                @Override
-                public void run() {
-                    SQLManager.setPlayerData(event.getPlayer().getUniqueId());
-
-                    main.toolinv.remove(event.getPlayer().getUniqueId());
-                    main.winginv.remove(event.getPlayer().getUniqueId());
-                }
-            });
+            synchronized (main.toolinv) {
+                Inventory m_inv = main.toolinv.remove(event.getPlayer().getUniqueId());
+                Inventory w_inv = main.winginv.remove(event.getPlayer().getUniqueId());
+                Bukkit.getServer().getScheduler().runTaskAsynchronously(main, () -> SQLManager.setPlayerData(event.getPlayer().getUniqueId(), m_inv, w_inv));
+            }
         }
     }
-
-
 
     public Boolean getToggle(UUID uuid) {
         if (!main.toggle.containsKey(uuid)) {
@@ -324,9 +324,7 @@ public class MultitoolUtils implements Listener {
                         for (String uuid : config.getConfigurationSection("toolinv").getKeys(false)) {
                             main.configmanager.playerLoad(UUID.fromString(uuid), "toolinv.");
                             main.configmanager.playerLoad(UUID.fromString(uuid), "winginv.");
-                            SQLManager.setPlayerData(UUID.fromString(uuid));
-                            main.toolinv.remove(UUID.fromString(uuid));
-                            main.winginv.remove(UUID.fromString(uuid));
+                            SQLManager.setPlayerData(UUID.fromString(uuid), main.toolinv.remove(UUID.fromString(uuid)), main.winginv.remove(UUID.fromString(uuid)));
                         }
                         for (Player p : Bukkit.getOnlinePlayers()) {
                             SQLManager.getPlayerData(p, false);

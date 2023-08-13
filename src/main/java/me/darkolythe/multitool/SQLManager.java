@@ -20,6 +20,8 @@ import java.util.logging.Level;
 
 public class SQLManager {
 
+    private static Object mutex = new Object();
+
     private static String host, port, database, username, password;
     private static Connection connection;
     private static Multitool main;
@@ -128,7 +130,6 @@ public class SQLManager {
         } catch (Exception e) {
             if (!inloop) {
                 try {
-                    setPlayerData(player.getUniqueId());
                     getPlayerData(player, true);
                 } catch (Exception ex) {
                     player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact an administrator.");
@@ -139,12 +140,9 @@ public class SQLManager {
         }
     }
 
-    public static void setPlayerData(UUID uuid) {
+    public static void setPlayerData(UUID uuid, Inventory m_inv, Inventory w_inv) {
         try {
             Statement statement = connection.createStatement();
-
-            Inventory m_inv = main.toolinv.get(uuid);
-            Inventory w_inv = main.winginv.get(uuid);
 
             String sword = serializeItemStack(m_inv.getItem(0));
             String pickaxe = serializeItemStack(m_inv.getItem(1));

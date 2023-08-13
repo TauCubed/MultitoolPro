@@ -10,14 +10,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 
 import static me.darkolythe.multitool.SQLManager.createTableIfNotExists;
 
 public class Multitool extends JavaPlugin implements Listener {
 
-	public Map<UUID, Inventory> toolinv = new HashMap<>();
-	public Map<UUID, Inventory> winginv = new HashMap<>();
+	public Map<UUID, Inventory> toolinv = new ConcurrentHashMap<>();
+	public Map<UUID, Inventory> winginv = new ConcurrentHashMap<>();
 	public List<ItemStack> placeholders = new ArrayList<>();
 	public List<ItemStack> wingholders = new ArrayList<>();
 	public Map<UUID, Boolean> toggle = new HashMap<>();
@@ -99,8 +104,12 @@ public class Multitool extends JavaPlugin implements Listener {
 	public void onDisable() {
 
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-			configmanager.playerSave(player.getUniqueId(), null, "toolinv."); //this saves all the player mt inv information if the server is reloading
-			configmanager.playerSave(player.getUniqueId(), null, "winginv.");
+			if (Multitool.sql) {
+				configmanager.playerSave(player.getUniqueId(), null, "toolinv."); //this saves all the player mt inv information if the server is reloading
+				configmanager.playerSave(player.getUniqueId(), null, "winginv.");
+			} else {
+				SQLManager.setPlayerData(player.getUniqueId(), toolinv.get(player.getUniqueId()), winginv.get(player.getUniqueId()));
+			}
 		}
 
 		getLogger().log(Level.INFO, (prefix + ChatColor.RED + "Multitool Plus Pro disabled!"));
