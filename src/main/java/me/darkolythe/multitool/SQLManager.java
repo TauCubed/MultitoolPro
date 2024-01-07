@@ -116,16 +116,16 @@ public class SQLManager {
 
             ResultSet result = statement.executeQuery("SELECT * FROM multitoolplusprodata WHERE UUID = '" + uuid + "';");
 
-            result.next();
-
-            inv.setItem(0, deserializeItemStack(result.getString("sword")));
-            inv.setItem(1, deserializeItemStack(result.getString("pickaxe")));
-            inv.setItem(2, deserializeItemStack(result.getString("axe")));
-            inv.setItem(3, deserializeItemStack(result.getString("shovel")));
-            inv.setItem(4, deserializeItemStack(result.getString("hoe")));
-            inv.setItem(5, deserializeItemStack(result.getString("shears")));
-            winv.setItem(1, deserializeItemStack(result.getString("chestplate")));
-            winv.setItem(2, deserializeItemStack(result.getString("elytra")));
+            if (result.next()) {
+                inv.setItem(0, deserializeItemStack(result.getString("sword")));
+                inv.setItem(1, deserializeItemStack(result.getString("pickaxe")));
+                inv.setItem(2, deserializeItemStack(result.getString("axe")));
+                inv.setItem(3, deserializeItemStack(result.getString("shovel")));
+                inv.setItem(4, deserializeItemStack(result.getString("hoe")));
+                inv.setItem(5, deserializeItemStack(result.getString("shears")));
+                winv.setItem(1, deserializeItemStack(result.getString("chestplate")));
+                winv.setItem(2, deserializeItemStack(result.getString("elytra")));
+            }
 
             statement.close();
         } catch (Exception e) {
@@ -134,9 +134,11 @@ public class SQLManager {
                     getPlayerData(player, true);
                 } catch (Exception ex) {
                     player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact an administrator.");
+                    Multitool.getInstance().getLogger().log(Level.SEVERE, "Failed to load Multitool inventory for " + player.getName(), ex);
                 }
             } else {
                 player.sendMessage(main.prefix + ChatColor.RED + "Failed to load Multitool inventory. Contact an administrator.");
+                Multitool.getInstance().getLogger().log(Level.SEVERE, "Failed to load Multitool inventory for " + player.getName(), e);
             }
         }
     }
