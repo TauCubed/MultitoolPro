@@ -1,7 +1,5 @@
 package me.darkolythe.multitool;
 
-import java.util.*;
-
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,6 +15,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MultitoolToolDetect implements Listener {
 	
 private Multitool main;
@@ -27,16 +28,10 @@ private Multitool main;
 
 	private ToolMap map = new ToolMap();
 
-	private int getToolType(Material material) {
+	private ToolMap.ToolType getToolType(Material material) {
 		String mat = material.toString();
 
-		
-
-		if (map.map.containsKey(mat)) {
-			return map.map.get(mat);
-		}
-
-		return 6;
+		return map.map.getOrDefault(mat, ToolMap.ToolType.SWORD);
 	}
 
 	@EventHandler
@@ -112,16 +107,16 @@ private Multitool main;
 						if (block != null) {
 							Material blocktype = block.getType();
 
-							int tooltype = getToolType(blocktype);
+							ToolMap.ToolType tooltype = getToolType(blocktype);
 
-							if (isShifting && tooltype == 3) {
-								tooltype = 4;
+							if (isShifting && tooltype == ToolMap.ToolType.SHOVEL) {
+								tooltype = ToolMap.ToolType.AXE;
 							}
 
-							if (main.multitoolutils.getToolInv(player).getItem(tooltype) != null) {
-								if (main.multitoolutils.getToolInv(player).getItem(tooltype).getType() != Material.GRAY_STAINED_GLASS_PANE) {
+							if (main.multitoolutils.getToolInv(player).getItem(tooltype.index()) != null) {
+								if (main.multitoolutils.getToolInv(player).getItem(tooltype.index()).getType() != Material.GRAY_STAINED_GLASS_PANE) {
 
-									givestack = main.multitoolutils.getToolInv(player).getItem(tooltype).clone();
+									givestack = main.multitoolutils.getToolInv(player).getItem(tooltype.index()).clone();
 									giveStack(givestack, player);
 								}
 							}

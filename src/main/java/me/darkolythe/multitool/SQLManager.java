@@ -43,6 +43,7 @@ public class SQLManager {
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(main, () -> {
             try {
+                openConnection();
                 Statement statement = connection.createStatement();
 
                 statement.executeQuery("SHOW TABLES;");
@@ -112,6 +113,7 @@ public class SQLManager {
 
 
         try {
+            openConnection();
             Statement statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT * FROM multitoolplusprodata WHERE UUID = '" + uuid + "';");
@@ -145,6 +147,7 @@ public class SQLManager {
 
     public static void setPlayerData(UUID uuid, List<ItemStack> m_inv, List<ItemStack> w_inv) {
         try {
+            openConnection();
             Statement statement = connection.createStatement();
 
             String sword = serializeItemStack(m_inv.get(0));
